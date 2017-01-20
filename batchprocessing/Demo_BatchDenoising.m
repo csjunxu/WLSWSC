@@ -1,6 +1,6 @@
 clear;
-Original_image_dir  =    '../20images/';
-fpath = fullfile(Original_image_dir, 'house.png');
+Original_image_dir  =    'C:\Users\csjunxu\Desktop\PGPD_TIP\20images\';
+fpath = fullfile(Original_image_dir, '*.png');
 im_dir  = dir(fpath);
 im_num = length(im_dir);
 
@@ -51,8 +51,8 @@ for delta = 0.08
             % calculate the PSNR
             par.PSNR(par.outerIter, par.image)  =   csnr( im_out*255, par.I*255, 0, 0 );
             par.SSIM(par.outerIter, par.image)      =  cal_ssim( im_out*255, par.I*255, 0, 0 );
-            imname = sprintf('nSig%d_clsnum%d_delta%2.2f_lambda%2.2f_%s', nSig, cls_num, delta, lambda, im_dir(i).name);
-            imwrite(im_out,imname);
+%             imname = sprintf('nSig%d_clsnum%d_delta%2.2f_lambda%2.2f_%s', nSig, cls_num, delta, lambda, im_dir(i).name);
+%             imwrite(im_out,imname);
             fprintf('%s : PSNR = %2.4f, SSIM = %2.4f \n',im_dir(i).name, par.PSNR(par.outerIter, par.image),par.SSIM(par.outerIter, par.image)     );
         end
         mPSNR=mean(par.PSNR,2);
@@ -66,7 +66,7 @@ for delta = 0.08
         sT256 = std(T256);
         fprintf('The best PSNR result is at %d iteration. \n',idx);
         fprintf('The average PSNR = %2.4f, SSIM = %2.4f. \n', mPSNR(idx),mSSIM);
-        name = sprintf('WLSWSC_BP_nSig%d_delta%2.2f_lambda%2.2f.mat',nSig, cls_num, delta, lambda);
+        name = sprintf('C:\Users\csjunxu\Desktop\PGPD_TIP\WLSWSC\WLSWSC_BP_nSig%d_delta%2.2f_lambda%2.2f.mat',nSig, delta, lambda);
         save(name,'nSig','PSNR','SSIM','mPSNR','mSSIM','mT512','sT512','mT256','sT256');
     end
 end
