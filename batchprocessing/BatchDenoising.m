@@ -26,7 +26,6 @@ for ite  =  1 : par.outerIter
     X_hat = zeros(par.ps2, par.maxr*par.maxc, 'single');
     W_hat = zeros(par.ps2, par.maxr*par.maxc, 'single');
     for i = 1:par.lenrc
-        i
         Y         =   nDCnlX(:, (i-1)*par.nlsp+1:i*par.nlsp);
         % initialize Wei for least square
         Wls = Sigma(blk_arr(:, i));
