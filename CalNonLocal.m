@@ -9,7 +9,7 @@ for i  = 1:par.ps
     for j  = 1:par.ps
         k    =  k+1;
         blk  = im(i:end-par.ps+i,j:end-par.ps+j);
-        nblk  = im(i:end-par.ps+i,j:end-par.ps+j);
+        nblk  = par.nim(i:end-par.ps+i,j:end-par.ps+j);
         X(k,:) = blk(:)';
         NX(k,:) = nblk(:)';
     end

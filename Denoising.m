@@ -1,4 +1,5 @@
 function  [im_out,par]    =   Denoising(par)
+% im_in = par.nim;
 im_out    =   par.nim;
 par.nSig0 = par.nSig;
 % parameters for noisy image
@@ -29,7 +30,6 @@ for ite  =  1 : par.IteNum
         idx2   =  idx(1:end-1) - idx(2:end);
         seq    =  find(idx2);
         seg    =  [0; seq; length(cls_idx)];
-        par.maxiter = min(par.maxiter + 5,15);
     end
     % estimation of noise variance
     if ite==1
@@ -74,11 +74,6 @@ for ite  =  1 : par.IteNum
     PSNR =   csnr( im_out*255, par.I*255, 0, 0 );
     SSIM      =  cal_ssim( im_out*255, par.I*255, 0, 0 );
     fprintf('Iter %d : PSNR = %2.4f, SSIM = %2.4f\n',ite, PSNR,SSIM);
-    im_out(im_out>1)=1;
-    im_out(im_out<0)=0;
-    if mod(ite,par.changeD)==0
-        par.nlsp = par.nlsp + par.increase;
-    end
     par.PSNR(ite,par.image) = PSNR;
     par.SSIM(ite,par.image) = SSIM;
 end
