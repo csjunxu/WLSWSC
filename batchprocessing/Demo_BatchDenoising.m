@@ -5,18 +5,18 @@ im_dir  = dir(fpath);
 im_num = length(im_dir);
 
 nSig = 40;
-par.ps = 8; % patch size
+par.ps = 7; % patch size
 par.step = 2; % the step of two neighbor patches
-par.changeD = 3;
-par.Win = min(3*par.ps, 20);
+par.changeD = 2;
+par.Win = max(3*par.ps, 30);
 par.maxiter = 20;% number of iterations in PG-GMM training
 par.nlsp = 90;  % number of non-local patches
 
 par.outerIter = 12;
-par.innerIter = 1;
-
+par.innerIter = 2;
+par.WWIter = 1;
 for delta = 0.08
-    par.delta = delta;
+    par.delta = delta; 
     for lambda = 0:0.05:0.5
         par.lambda=lambda;
         % record all the results in each iteration

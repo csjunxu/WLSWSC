@@ -3,7 +3,7 @@ function  X = WLSWSC(Y, Wei, C, par)
 X = Y;
 % update Wei
 % IS NOT NEED
-for i=1:par.innerIter
+for i=1:par.WWIter
     % update D and S
     CW = bsxfun(@times, C, Wei);
     YW = bsxfun(@times, X, Wei);
