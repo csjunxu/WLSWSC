@@ -14,4 +14,4 @@ for l = 1:1:par.ch
         end
     end
 end
-im_out  =  im_out./im_wei;
+im_out  =  im_out ./ im_wei;
