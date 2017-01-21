@@ -7,7 +7,8 @@ for i=1:par.WWIter
     % update D and S
     CW = bsxfun(@times, C, Wei);
     YW = bsxfun(@times, X, Wei);
-    [D, S, ~] = svd( CW * YW', 'econ');
+    [U, S, V] = svd( CW * YW', 'econ');
+    D = U * V';
     S = diag(S);
     % update
     Wsc = bsxfun(@rdivide, par.lambda * (Wei .^ 2), sqrt(S) + eps );
