@@ -10,8 +10,8 @@ par.step = 2; % the step of two neighbor patches
 par.changeD = 2;
 par.Win = max(3*par.ps, 20);
 
-par.outerIter = 12;
-par.innerIter = 2;
+par.outerIter = 6;
+par.innerIter = 1;
 par.WWIter = 1;
 for delta = 0.08
     par.delta = delta; 
