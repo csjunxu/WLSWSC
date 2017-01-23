@@ -17,7 +17,7 @@ par.lenc = length(par.c);
 par.ps2 = par.ps^2;
 par.maxrc = par.maxr*par.maxc;
 par.lenrc = par.lenr*par.lenc;
-for ite  =  1 : par.IteNum
+for ite  =  1 : par.IteNum  
     % iterative regularization
     im_out = im_out+par.delta*(par.nim-im_out);
     % searching  non-local patches

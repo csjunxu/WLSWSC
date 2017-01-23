@@ -52,7 +52,7 @@ for cls_num= 32
                 % calculate the PSNR
                 par.PSNR(par.IteNum,par.image)  =   csnr( im_out*255, par.I*255, 0, 0 );
                 par.SSIM(par.IteNum,par.image)      =  cal_ssim( im_out*255, par.I*255, 0, 0 );
-                imname = sprintf('nSig%d_clsnum%d_delta%2.2f_lambda%2.2f_%s', nSig, cls_num, delta, lambda, im_dir(i).name);
+%                 imname = sprintf('nSig%d_clsnum%d_delta%2.2f_lambda%2.2f_%s', nSig, cls_num, delta, lambda, im_dir(i).name);
 %                 imwrite(im_out,imname);
 %                 fprintf('%s : PSNR = %2.4f, SSIM = %2.4f \n',im_dir(i).name, par.PSNR(par.IteNum,par.image),par.SSIM(par.IteNum,par.image)     );
             end
