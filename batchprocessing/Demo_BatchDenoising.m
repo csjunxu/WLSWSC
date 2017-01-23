@@ -6,16 +6,16 @@ im_num = length(im_dir);
 
 nSig = 40;
 par.ps = 7; % patch size
-par.step = 2; % the step of two neighbor patches
-par.changeD = 2;
+par.step = 3; % the step of two neighbor patches
 par.win = max(3*par.ps, 20);
 
 par.outerIter = 8;
 par.innerIter = 2;
 par.WWIter = 1;
+
 for delta = 0.08
     par.delta = delta; 
-    for lambda = 0.1:0.05:0.5
+    for lambda = 0.5:0.1:1.5
         par.lambda=lambda;
         % record all the results in each iteration
         par.PSNR = zeros(par.outerIter, im_num, 'single');
