@@ -41,6 +41,8 @@ for  i  =  1 :par.lenr
         dis = sum(bsxfun(@minus,neighbor, seed).^2,1);
         [~,ind]   =  sort(dis);
         indc        =  idx( ind( 1:par.nlsp ) );
+        indc(indc==off) = indc(1); % added on 08/01/2017
+        indc(1) = off; % to make sure the first one of indc equals to off
         blk_arr(:,off1)  =  indc;
         temp = X( : , indc );
         DC(:,off1) = mean(temp,2);

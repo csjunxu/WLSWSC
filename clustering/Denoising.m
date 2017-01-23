@@ -30,6 +30,7 @@ for ite  =  1 : par.IteNum
         idx2   =  idx(1:end-1) - idx(2:end);
         seq    =  find(idx2);
         seg    =  [0; seq; length(cls_idx)];
+        par.maxiter = par.maxiter + 5;
     end
     % estimation of noise variance
     if ite==1
