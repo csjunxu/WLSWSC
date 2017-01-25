@@ -10,7 +10,7 @@ par.ch = ch;
 par = SearchNeighborIndex( par );
 for ite  =  1 : par.outerIter
     % iterative regularization
-    im_out = im_out+par.delta*(par.nim - im_out);
+    im_out = im_out + par.delta * (par.nim - im_out);
     % image to patches and estimate local noise variance
     [Y, Sigma] = Image2Patch( im_out, im_in, par);
     % estimation of noise variance
