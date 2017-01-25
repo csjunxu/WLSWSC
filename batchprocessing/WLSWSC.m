@@ -5,10 +5,10 @@ function  X = WLSWSC(Y, Wls, par)
 S = diag(S);
 % % update W for weighted sparse coding
 % Wsc = bsxfun(@rdivide, par.lambdasc * Wls .^ 2, sqrt(S) + eps );
-f_curr = 0;
+% f_curr = 0;
 C = zeros(size(D, 1), size(Y, 2));
 for i=1:100%par.WWIter
-    f_prev = f_curr;
+    %     f_prev = f_curr;
     C_prev = C;
     % update W for weighted sparse coding
     Wsc = bsxfun(@rdivide, par.lambdasc * Wls .^ 2, sqrt(S) + eps );
@@ -30,17 +30,21 @@ for i=1:100%par.WWIter
     %     D = U;
     S = diag(S);
     
-    DT = bsxfun(@times, Y - D * C, Wls);
-    DT = DT(:)'*DT(:) / 2;
-    RT = Wsc .*  C;
-    RT = norm(RT, 1);
-    residual = norm(C - C_prev, 1);
-    f_curr = DT + RT;
+    residual = norm(C - C_prev, 'fro');
     if residual < par.epsilon
-% %     if (abs(f_prev - f_curr) / f_curr < par.epsilon)
+        %     if (abs(f_prev - f_curr) / f_curr < par.epsilon)
         break;
     end
-    fprintf('WLSWSC Energy: %2.8f\n', residual);
+    fprintf('Residual of C: %2.4f\n', residual);
+    %     DT = bsxfun(@times, Y - D * C, Wls);
+    %     DT = DT(:)'*DT(:) / 2;
+    %     RT = Wsc .*  C;
+    %     RT = norm(RT, 1);
+    %     f_curr = DT + RT;
+    %     if (abs(f_prev - f_curr) / f_curr < par.epsilon)
+    %         break;
+    %     end
+    %     fprintf('WLSWSC Energy: %2.8f\n', f_curr);
 end
 % update X
 X = D * C;

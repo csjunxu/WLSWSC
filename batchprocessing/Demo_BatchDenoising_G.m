@@ -13,7 +13,7 @@ par.outerIter = 12;
 par.innerIter = 2;
 par.WWIter = 10;
 par.epsilon = 0.005;
-par.model = 2;
+par.model = 1;
 
 for delta = 0.08
     par.delta = delta;
