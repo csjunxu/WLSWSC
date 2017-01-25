@@ -9,13 +9,13 @@ par.ps = 7; % patch size
 par.step = 3; % the step of two neighbor patches
 par.win = max(3*par.ps, 20);
 
-par.outerIter = 8;
+par.outerIter = 12;
 par.innerIter = 2;
 par.WWIter = 1;
 
 for delta = 0.08
-    par.delta = delta; 
-    for lambda = 0.5:0.1:1.5
+    par.delta = delta;
+    for lambda = 1:0.1:1.8
         par.lambda=lambda;
         % record all the results in each iteration
         par.PSNR = zeros(par.outerIter, im_num, 'single');
@@ -27,7 +27,7 @@ for delta = 0.08
             par.image = i;
             par.nSig = nSig/255;
             par.I =  single( imread(fullfile(Original_image_dir, im_dir(i).name)) )/255;
-            %                 S = regexp(im_dir(i).name, '\.', 'split');
+            S = regexp(im_dir(i).name, '\.', 'split');
             randn('seed',0);
             par.nim =   par.I + par.nSig*randn(size(par.I));
             %
@@ -50,8 +50,8 @@ for delta = 0.08
             % calculate the PSNR
             par.PSNR(par.outerIter, par.image)  =   csnr( im_out*255, par.I*255, 0, 0 );
             par.SSIM(par.outerIter, par.image)      =  cal_ssim( im_out*255, par.I*255, 0, 0 );
-%             imname = sprintf('nSig%d_clsnum%d_delta%2.2f_lambda%2.2f_%s', nSig, cls_num, delta, lambda, im_dir(i).name);
-%             imwrite(im_out,imname);
+            %             imname = sprintf('nSig%d_clsnum%d_delta%2.2f_lambda%2.2f_%s', nSig, cls_num, delta, lambda, im_dir(i).name);
+            %             imwrite(im_out,imname);
             fprintf('%s : PSNR = %2.4f, SSIM = %2.4f \n',im_dir(i).name, par.PSNR(par.outerIter, par.image),par.SSIM(par.outerIter, par.image)     );
         end
         mPSNR=mean(par.PSNR,2);
@@ -65,7 +65,7 @@ for delta = 0.08
         sT256 = std(T256);
         fprintf('The best PSNR result is at %d iteration. \n',idx);
         fprintf('The average PSNR = %2.4f, SSIM = %2.4f. \n', mPSNR(idx),mSSIM);
-        name = sprintf('C:/Users/csjunxu/Desktop/PGPD_TIP/WLSWSC/batchprocessing/WLSWSC_BP_nSig%d_delta%2.2f_lambda%2.2f.mat',nSig, delta, lambda);
+        name = sprintf('C:/Users/csjunxu/Desktop/ICCV2017/WLSWSC/batchprocessing/WLSWSC_BP_nSig%d_delta%2.2f_lambda%2.2f.mat',nSig, delta, lambda);
         save(name,'nSig','PSNR','SSIM','mPSNR','mSSIM','mT512','sT512','mT256','sT256');
     end
 end
