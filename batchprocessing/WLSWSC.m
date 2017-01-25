@@ -1,5 +1,5 @@
 % double weighted: weighted least square and weighted sparse coding framework
-function  X = WLSWSC(Y, Wei, par)
+function  X = WLSWSC(Y, Wls, par)
 X = Y;
 % initialize D and S
 [D, S, ~] = svd(full(Y), 'econ');
@@ -13,8 +13,8 @@ for i=1:par.WWIter
     B = D' * Y;
     C = sign(B) .* max(abs(B) - Wsc, 0);
     % update D and S
-    CW = bsxfun(@times, C, Wei);
-    YW = bsxfun(@times, X, Wei);
+    CW = bsxfun(@times, C, Wls);
+    YW = bsxfun(@times, X, Wls);
     [U, S, V] = svd( CW * YW', 'econ');
     D = U * V';
     S = diag(S);
