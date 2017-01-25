@@ -6,9 +6,9 @@ X = Y;
 S = diag(S);
 % % update W for weighted sparse coding
 % Wsc = bsxfun(@rdivide, par.lambdasc * Wls .^ 2, sqrt(S) + eps );
-f = 0;
+f_curr = 0;
 for i=1:par.WWIter
-    f_prev = f;
+    f_prev = f_curr;
     % update W for weighted sparse coding
     Wsc = bsxfun(@rdivide, par.lambdasc * Wls .^ 2, sqrt(S) + eps );
     % update C by soft thresholding
