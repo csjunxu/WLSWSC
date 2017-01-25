@@ -16,7 +16,7 @@ par.epsilon = 0.005;
 
 for delta = 0.08
     par.delta = delta;
-    for lambdasc = 1:0.1:1.8
+    for lambdasc = 0.1:0.1:1
         par.lambdasc = lambdasc;
         for lambdals = 0.1:0.1:0.8
             par.lambdals = lambdals;
