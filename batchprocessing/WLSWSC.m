@@ -7,7 +7,7 @@ S = diag(S);
 % Wsc = bsxfun(@rdivide, par.lambdasc * Wls .^ 2, sqrt(S) + eps );
 f_curr = 0;
 C = zeros(size(D, 1), size(Y, 2));
-for i=1:par.WWIter
+for i=1:100%par.WWIter
     f_prev = f_curr;
     C_prev = C;
     % update W for weighted sparse coding
