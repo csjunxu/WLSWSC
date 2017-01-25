@@ -35,7 +35,7 @@ for i=1:par.WWIter
         %     if (abs(f_prev - f_curr) / f_curr < par.epsilon)
         break;
     end
-    fprintf('Residual of C: %2.4f\n', residual);
+%     fprintf('Residual of C: %2.4f\n', residual);
     %     DT = bsxfun(@times, Y - D * C, Wls);
     %     DT = DT(:)'*DT(:) / 2;
     %     RT = Wsc .*  C;
