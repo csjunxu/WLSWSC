@@ -30,7 +30,7 @@ for i=1:par.WWIter
     if (abs(f_prev - f_curr) / f_curr < par.epsilon)
         break;
     end
-    fprintf('WLSWSC Energy: %2.4f\n', f_curr);
+%     fprintf('WLSWSC Energy: %2.4f\n', f_curr);
 end
 % update X
 X = D * C;
