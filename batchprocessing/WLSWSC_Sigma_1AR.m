@@ -31,17 +31,7 @@ for ite  =  1 : par.outerIter
         nDCnlY = bsxfun(@minus, nlY, DC);
         % update Wei for least square
         Wls = Sigma(blk_arr(:, i));
-        % update D and S
-        [D, S, ~] = svd( full(nDCnlY), 'econ' );
-        %         [D, S, ~] = svd(cov(nDCnlY'), 'econ');
-        S = diag(S);
-        % update weight for sparse coding
-        Wsc = bsxfun( @rdivide, par.lambda * (Wls .^ 2), S + eps );
-        % update C by soft thresholding
-        B = D' * nDCnlY;
-        C = sign(B) .* max( abs(B) - Wsc, 0 );
-        % update Y
-        nDCnlYhat = D * C;
+        nDCnlYhat = WLSWSC(nDCnlY, Wls, par);
         nlYhat = bsxfun(@plus, nDCnlYhat, DC);
         % add DC components and aggregation
         Y_hat(:, blk_arr(:, i)) = Y_hat(:, blk_arr(:, i)) + nlYhat;
