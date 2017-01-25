@@ -41,7 +41,7 @@ for i=1:par.WWIter
     RT = Wsc .*  C;
     RT = norm(RT, 1);
     f_curr = DT + RT;
-    fprintf('WLSWSC Energy, %d th: %2.8f\n', i, f_curr);
+%     fprintf('WLSWSC Energy, %d th: %2.8f\n', i, f_curr);
     if (abs(f_prev - f_curr) / f_curr < par.epsilon)
         break;
     end
