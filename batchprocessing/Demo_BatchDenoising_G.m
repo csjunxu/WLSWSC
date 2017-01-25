@@ -13,13 +13,13 @@ par.outerIter = 12;
 par.innerIter = 2;
 par.WWIter = 10;
 par.epsilon = 0.005;
-par.model = 1;
+par.model = 2;
 
 for delta = 0.08
     par.delta = delta;
-    for lambdasc = 0.1:0.1:1
+    for lambdasc = 1%0.1:0.1:1
         par.lambdasc = lambdasc;
-        for lambdals = 0.1:0.1:0.5
+        for lambdals = 1%0.1:0.1:0.5
             par.lambdals = lambdals;
             % record all the results in each iteration
             par.PSNR = zeros(par.outerIter, im_num, 'single');

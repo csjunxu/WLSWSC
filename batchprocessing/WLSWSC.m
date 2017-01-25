@@ -30,7 +30,7 @@ for i=1:100%par.WWIter
     %     D = U;
     S = diag(S);
     
-    residual = norm(C - C_prev, 'fro');
+    residual = norm(C - C_prev, 1);
     if residual < par.epsilon
         %     if (abs(f_prev - f_curr) / f_curr < par.epsilon)
         break;
