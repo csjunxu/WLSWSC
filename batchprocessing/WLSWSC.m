@@ -19,6 +19,7 @@ for i=1:par.WWIter
     YW = bsxfun(@times, X, Wls);
     [U, S, V] = svd( CW * YW', 'econ');
     D = U * V';
+    %     D = U;
     S = diag(S);
     
     DT = bsxfun(@times, Y - D * C, Wls);
