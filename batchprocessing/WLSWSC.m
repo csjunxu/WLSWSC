@@ -28,7 +28,7 @@ for i=1:par.WWIter
         YW = bsxfun(@times, Y, Wls);
         [U, ~, V] = svd( CW * YW', 'econ');
     end
-    D = U * V';
+       D = V * U';
     %     S = diag(S);
     
     %     residual = norm(C - C_prev, 1);
