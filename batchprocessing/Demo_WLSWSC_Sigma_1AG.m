@@ -17,7 +17,7 @@ par.model = 1;
 
 for delta = 0.08
     par.delta = delta;
-    for lambdasc = 0:0.1:1
+    for lambdasc = 0.1:0.1:1
         par.lambdasc = lambdasc;
         % record all the results in each iteration
         par.PSNR = zeros(par.outerIter, im_num, 'single');
