@@ -12,12 +12,12 @@ for ite  =  1 : par.outerIter
     % iterative regularization
     im_out = im_out+par.delta*(par.nim - im_out);
     % image to patches and estimate local noise variance
-    [X, Sigma] = Image2Patch( im_out, im_in, par);
+    [Y, Sigma] = Image2Patch( im_out, im_in, par);
     % estimation of noise variance
     if mod(ite-1,par.innerIter)==0
         par.nlsp = par.nlsp - 10;
         % searching  non-local patches
-        [nDCnlX, blk_arr, DC] = Block_Matching( X, par);
+        blk_arr = Block_Matching( Y, par);
         if ite == 1
             Sigma = par.nSig0 * ones(size(Sigma));
         end
@@ -26,14 +26,17 @@ for ite  =  1 : par.outerIter
     X_hat = zeros(par.ps2, par.maxrc, 'single');
     W_hat = zeros(par.ps2, par.maxrc, 'single');
     for i = 1:par.lenrc
-        Y         =   nDCnlX(:, (i-1)*par.nlsp+1:i*par.nlsp);
+        index = blk_arr(:, i);
+        nlY = Y( : , index );
+        DC = mean(nlY, 2);
+        nDCnlY = bsxfun(@minus, nlY, DC);
         % initialize Wei for least square
-        Wls = Sigma(blk_arr(:, i));
+        Wls = Sigma(index);
         % Recovered Estimated Patches by weighted least square and weighted
         % sparse coding model
-        Yhat = WLSWSC(Y, Wls, par);
+        nDCnlYhat = WLSWSC(nDCnlY, Wls, par);
         % add DC components and aggregation
-        X_hat(:, blk_arr(:, i)) = X_hat(:, blk_arr(:, i)) + bsxfun(@plus, Yhat, DC(:, i));
+        X_hat(:, blk_arr(:, i)) = X_hat(:, blk_arr(:, i)) + bsxfun(@plus, nDCnlYhat, DC(:, i));
         W_hat(:, blk_arr(:, i)) = W_hat(:, blk_arr(:, i)) + ones(par.ps^2, par.nlsp);
     end
     % Reconstruction

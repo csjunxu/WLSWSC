@@ -6,7 +6,7 @@ X = Y;
 S = diag(S);
 f = 0;
 for i=1:par.WWIter
-        f_prev = f;
+    f_prev = f;
     % update W for weighted sparse coding
     Wsc = bsxfun(@rdivide, par.lambda * Wls.^ 2, sqrt(S) + eps );
     % update C by soft thresholding
@@ -21,10 +21,10 @@ for i=1:par.WWIter
     
     DT = (Y - D * C) * Wei;
     DT = DT(:)'*DT(:) / 2;
-    RT = Wsc .*  C;    
+    RT = Wsc .*  C;
     RT = norm(RT, 1);
     f_curr = DT + RT;
-    if (abs(f_prev - f_curr) / f_curr < par.epsilon) ||
+    if (abs(f_prev - f_curr) / f_curr < par.epsilon)
         break;
     end
     fprintf('WLSWSC Energy: %d\n',f);
