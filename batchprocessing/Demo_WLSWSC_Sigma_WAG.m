@@ -11,15 +11,15 @@ par.win = max(3*par.ps, 20);
 
 par.outerIter = 12;
 par.innerIter = 2;
-par.WWIter = 1;
+par.WWIter = 100;
 par.epsilon = 0.005;
 par.model = 1;
 
 for delta = 0.08
     par.delta = delta;
-    for lambdasc = 0% 0.1:0.1:1
+    for lambdasc = 0:0.1:1
         par.lambdasc = lambdasc;
-        for lambdals = 0% 0.1:0.1:0.5
+        for lambdals = 0:0.1:0.5
             par.lambdals = lambdals;
             % record all the results in each iteration
             par.PSNR = zeros(par.outerIter, im_num, 'single');
@@ -41,7 +41,7 @@ for delta = 0.08
                 fprintf('The initial value of PSNR = %2.4f, SSIM = %2.4f \n', PSNR,SSIM);
                 %
                 time0 = clock;
-                [im_out,par]  =  BatchDenoising(par);
+                [im_out, par]  =  WLSWSC_Sigma_WAG(par);
                 if size(par.I,1) == 512
                     T512 = [T512 etime(clock,time0)];
                     fprintf('Total elapsed time = %f s\n', (etime(clock,time0)) );

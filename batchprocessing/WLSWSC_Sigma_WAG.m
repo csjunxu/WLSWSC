@@ -1,4 +1,4 @@
-function  [im_out,par]    =   BatchDenoising(par)
+function  [im_out,par]    =   WLSWSC_Sigma_WAG(par)
 im_in = par.nim;
 im_out    =   par.nim;
 par.nSig0 = par.nSig;
@@ -29,15 +29,16 @@ for ite  =  1 : par.outerIter
         index = blk_arr(:, i);
         nlY = Y( : , index );
         DC = mean(nlY, 2);
+        Wls = Sigma(index);
         nDCnlY = bsxfun(@minus, nlY, DC);
-        % initialize Wei for least square
-        Wls = par.lambdals * Sigma(index);
         % Recovered Estimated Patches by weighted least square and weighted
         % sparse coding model
         nDCnlYhat = WLSWSC(nDCnlY, Wls, par);
-        % add DC components and aggregation
-        Y_hat(:, index) = Y_hat(:, index) + bsxfun(@plus, nDCnlYhat, DC);
-        W_hat(:, index) = W_hat(:, index) + ones(par.ps2, par.nlsp);
+        % add DC components 
+        nlYhat = bsxfun(@plus, nDCnlYhat, DC);
+        % aggregation
+        Y_hat(:, index) = Y_hat(:, index) + bsxfun(@times, nlYhat, Wls);
+        W_hat(:, index) = W_hat(:, index) + repmat(Wls, [par.ps2ch, 1]);
     end
     % Reconstruction
     im_out = PGs2Image(Y_hat, W_hat, par);
