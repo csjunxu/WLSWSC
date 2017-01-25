@@ -16,15 +16,15 @@ par.step = 3;       % the step of two neighbor patches
 par.ps = 6;        % patch size
 par.win = 20;   % size of window around the patch
 
-par.outerIter = 12;
+par.outerIter = 4;
 par.innerIter = 2;
-par.WWIter = 1;
-par.epsilon = 0.005;
-par.model = 1;
+par.WWIter = 100;
+par.epsilon = 0.01;
+par.model = 2;
 
 for nSig = 0.1:0.05:0.25
     par.nSig = nSig;
-    for lambdasc = 0:0.1:0.5
+    for lambdasc = [0 0.01:0.01:0.05]
         par.lambdasc = lambdasc;
         PSNR = [];
         SSIM = [];
