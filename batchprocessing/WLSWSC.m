@@ -4,20 +4,17 @@ function  X = WLSWSC(Y, Wls, par)
 YW = bsxfun(@times, Y, Wls);
 [U, S, V] = svd(YW * Y', 'econ');
 D = U * V';
-%     D = U;
 S = diag(S);
+% fixed W for weighted sparse coding
+Wsc = bsxfun(@rdivide, par.lambdasc * Wls .^ 2, S + eps );
+
 f_curr = 0;
-% C = zeros(size(D, 1), size(Y, 2));
 for i=1:par.WWIter
     f_prev = f_curr;
-    %     C_prev = C;
-    % update W for weighted sparse coding
-    %     Wsc = bsxfun(@rdivide, par.lambdasc * Wls .^ 2, sqrt(S) + eps );
     % update C by soft thresholding
     B = D' * Y;
-    %     C = sign(B) .* max(abs(B) - Wsc, 0);
-    C = sign(B) .* max(abs(B) - par.lambdasc, 0);
-    % update D and S
+    C = sign(B) .* max(abs(B) - Wsc, 0);
+    % update D
     if par.model == 1
         % model 1
         CW = bsxfun(@times, C, Wls);
@@ -28,21 +25,15 @@ for i=1:par.WWIter
         YW = bsxfun(@times, Y, Wls);
         [U, ~, V] = svd( CW * YW', 'econ');
     end
-       D = V * U';
-    %     S = diag(S);
+    D = V * U';
     
-    %     residual = norm(C - C_prev, 1);
-    %     fprintf('C residual, %d th: %2.8f\n', i, residual);
-    %     if residual < par.epsilon
-    %         %     if (abs(f_prev - f_curr) / f_curr < par.epsilon)
-    %         break;
-    %     end
-    %     DT = bsxfun(@times, Y - D * C, Wls);
-    DT = Y - D * C;
-    DT = DT(:)'*DT(:);
-    %     RT = Wsc .*  C;
-    RT = norm(C, 1);
-    f_curr = 0.5 * DT + par.lambdasc * RT;
+    % energy function
+    DT = bsxfun(@times, Y - D * C, Wls);
+    DT = norm(DT, 'fro');
+    %     DT = DT(:)'*DT(:);
+    RT = Wsc .*  C;
+    RT = sum(sum(abs(RT)));
+    f_curr = 0.5 * DT ^ 2 + par.lambdasc * RT;
     fprintf('WLSWSC Energy, %d th: %2.8f\n', i, f_curr);
     if (abs(f_prev - f_curr) / f_curr < par.epsilon)
         break;

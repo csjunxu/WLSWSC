@@ -1,4 +1,4 @@
-function  [im_out,par]    =   WLSWSC_RBF_1AG(par)
+function  [im_out,par]    =   WLSSC_RBF_1AG(par)
 im_in = par.nim;
 im_out    =   par.nim;
 par.nSig0 = par.nSig;
@@ -31,8 +31,8 @@ for ite  =  1 : par.outerIter
         DC = mean(nlY, 2);
         nDCnlY = bsxfun(@minus, nlY, DC);
         % Recovered Estimated Patches by weighted least square and weighted
-        % sparse coding model   
-        nDCnlYhat = WLSWSC(nDCnlY, Wls(index), par);
+        % sparse coding model
+        nDCnlYhat = WLSSC(nDCnlY, Wls(index), par);
         % update weight for least square
         Wls(index) = exp( - par.lambdals * sqrt(sum((nDCnlY - nDCnlYhat) .^2, 1)) );
         % add DC components

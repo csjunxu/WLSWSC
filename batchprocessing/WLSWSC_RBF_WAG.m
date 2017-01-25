@@ -19,7 +19,7 @@ for ite  =  1 : par.outerIter
         % searching  non-local patches
         blk_arr = Block_Matching( Y, par);
         if ite == 1
-            W = par.nSig0 * ones(size(Sigma));
+            Wls = par.nSig0 * ones(size(Sigma));
         end
     end
     % Weighted Sparse Coding
@@ -32,14 +32,14 @@ for ite  =  1 : par.outerIter
         nDCnlY = bsxfun(@minus, nlY, DC);
         % Recovered Estimated Patches by weighted least square and weighted
         % sparse coding model
-        nDCnlYhat = WLSWSC(nDCnlY, W(index), par);
+        nDCnlYhat = WLSWSC(nDCnlY, Wls(index), par);
         % update weight for least square
-        W(index) = exp( - par.lambdals * sqrt(sum((nDCnlY - nDCnlYhat) .^2, 1)) );
+        Wls(index) = exp( - par.lambdals * sqrt(sum((nDCnlY - nDCnlYhat) .^2, 1)) );
         % add DC components
         nlYhat = bsxfun(@plus, nDCnlYhat, DC);
         % aggregation
-        Y_hat(:, index) = Y_hat(:, index) + bsxfun(@times, nlYhat, W(index));
-        W_hat(:, index) = W_hat(:, index) + repmat(W(index), [par.ps2ch, 1]);
+        Y_hat(:, index) = Y_hat(:, index) + bsxfun(@times, nlYhat, Wls(index));
+        W_hat(:, index) = W_hat(:, index) + repmat(Wls(index), [par.ps2ch, 1]);
     end
     % Reconstruction
     im_out = PGs2Image(Y_hat, W_hat, par);
