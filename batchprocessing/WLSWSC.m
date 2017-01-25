@@ -19,15 +19,17 @@ for i=1:100%par.WWIter
     if par.model == 1
         % model 1
         CW = bsxfun(@times, C, Wls);
-        [U, S, V] = svd( CW * Y', 'econ');
+        %         [U, S, V] = svd( CW * Y', 'econ');
+        [U, S, V] = svd(full(Y), 'econ');
     else
         % model 2
         CW = bsxfun(@times, C, Wls);
         YW = bsxfun(@times, Y, Wls);
-        [U, S, V] = svd( CW * YW', 'econ');
+        [U, S, V] = svd(full(Y), 'econ');
+        %         [U, S, V] = svd( CW * YW', 'econ');
     end
-    D = U * V';
-    %     D = U;
+    %     D = U * V';
+    D = U;
     S = diag(S);
     
     residual = norm(C - C_prev, 1);
