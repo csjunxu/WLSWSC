@@ -23,7 +23,7 @@ for ite  =  1 : par.outerIter
         end
     end
     % Weighted Sparse Coding
-    X_hat = zeros(par.ps2, par.maxrc, 'single');
+    Y_hat = zeros(par.ps2, par.maxrc, 'single');
     W_hat = zeros(par.ps2, par.maxrc, 'single');
     for i = 1:par.lenrc
         index = blk_arr(:, i);
@@ -31,16 +31,16 @@ for ite  =  1 : par.outerIter
         DC = mean(nlY, 2);
         nDCnlY = bsxfun(@minus, nlY, DC);
         % initialize Wei for least square
-        Wls = Sigma(index);
+        Wls = par.lambdals * Sigma(index);
         % Recovered Estimated Patches by weighted least square and weighted
         % sparse coding model
         nDCnlYhat = WLSWSC(nDCnlY, Wls, par);
         % add DC components and aggregation
-        X_hat(:, blk_arr(:, i)) = X_hat(:, blk_arr(:, i)) + bsxfun(@plus, nDCnlYhat, DC(:, i));
-        W_hat(:, blk_arr(:, i)) = W_hat(:, blk_arr(:, i)) + ones(par.ps^2, par.nlsp);
+        Y_hat(:, index) = Y_hat(:, index) + bsxfun(@plus, nDCnlYhat, DC);
+        W_hat(:, index) = W_hat(:, index) + ones(par.ps2, par.nlsp);
     end
     % Reconstruction
-    im_out = PGs2Image(X_hat, W_hat, par);
+    im_out = PGs2Image(Y_hat, W_hat, par);
     % calculate the PSNR
     PSNR =   csnr( im_out * 255, par.I * 255, 0, 0 );
     SSIM      =  cal_ssim( im_out * 255, par.I * 255, 0, 0 );

@@ -4,11 +4,13 @@ X = Y;
 % initialize D and S
 [D, S, ~] = svd(full(Y), 'econ');
 S = diag(S);
+% % update W for weighted sparse coding
+% Wsc = bsxfun(@rdivide, par.lambdasc * Wls .^ 2, sqrt(S) + eps );
 f = 0;
 for i=1:par.WWIter
     f_prev = f;
     % update W for weighted sparse coding
-    Wsc = bsxfun(@rdivide, par.lambda * Wls.^ 2, sqrt(S) + eps );
+    Wsc = bsxfun(@rdivide, par.lambdasc * Wls .^ 2, sqrt(S) + eps );
     % update C by soft thresholding
     B = D' * Y;
     C = sign(B) .* max(abs(B) - Wsc, 0);
@@ -19,7 +21,7 @@ for i=1:par.WWIter
     D = U * V';
     S = diag(S);
     
-    DT = (Y - D * C) * Wei;
+    DT = bsxfun(@times, Y - D * C, Wls);
     DT = DT(:)'*DT(:) / 2;
     RT = Wsc .*  C;
     RT = norm(RT, 1);
@@ -27,7 +29,7 @@ for i=1:par.WWIter
     if (abs(f_prev - f_curr) / f_curr < par.epsilon)
         break;
     end
-    fprintf('WLSWSC Energy: %d\n',f);
+    fprintf('WLSWSC Energy: %2.4f\n', f_curr);
 end
 % update X
 X = D * C;
