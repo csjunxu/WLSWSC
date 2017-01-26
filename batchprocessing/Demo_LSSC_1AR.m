@@ -24,7 +24,7 @@ par.model = 2;
 
 for delta = 0
     par.delta = delta;
-    for nSig = 0.1:0.05:0.25
+    for nSig = 0.05:0.05:0.25
         par.nSig = nSig;
         for lambdasc = 0.01:0.01:0.05
             par.lambdasc = lambdasc;
