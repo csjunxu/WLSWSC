@@ -11,7 +11,7 @@ par.win = max(3*par.ps, 20);
 
 par.outerIter = 12;
 par.innerIter = 2;
-par.WWIter = 100;
+par.WWIter = 1;
 par.epsilon = 0.001;
 
 for delta = 0.08

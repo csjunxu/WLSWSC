@@ -11,15 +11,15 @@ par.win = max(3*par.ps, 20);
 
 par.outerIter = 12;
 par.innerIter = 2;
-par.WWIter = 100;
+par.WWIter = 1;
 par.epsilon = 0.001;
 par.model = 2;
 
 for delta = 0.08
     par.delta = delta;
-    for lambdasc = 0:0.1:1
+    for lambdasc = 0.1:0.1:1
         par.lambdasc = lambdasc;
-        for lambdals = 0:0.1:0.5
+        for lambdals = 0.1:0.1:0.5
             par.lambdals = lambdals;
             % record all the results in each iteration
             par.PSNR = zeros(par.outerIter, im_num, 'single');
@@ -27,7 +27,7 @@ for delta = 0.08
             T512 = [];
             T256 = [];
             for i = 1:im_num
-                par.nlsp = 90;  % number of non-local patches
+                par.nlsp = 70;  % number of non-local patches
                 par.image = i;
                 par.nSig = nSig/255;
                 par.I =  single( imread(fullfile(Original_image_dir, im_dir(i).name)) )/255;
@@ -69,7 +69,7 @@ for delta = 0.08
             sT256 = std(T256);
             fprintf('The best PSNR result is at %d iteration. \n',idx);
             fprintf('The average PSNR = %2.4f, SSIM = %2.4f. \n', mPSNR(idx),mSSIM);
-            name = sprintf(['WLSWSC_BP_m' num2str(par.model) '_nSig' num2str(nSig) '_delta' num2str(delta) '_lsc' num2str(lambdasc) '_lls' num2str(lambdals) '_WIter' num2str(par.WWIter) '.mat']);
+            name = sprintf(['WLSSC_RBF_1AG_nSig' num2str(nSig) '_delta' num2str(delta) '_lsc' num2str(lambdasc) '_lls' num2str(lambdals) '_WIter' num2str(par.WWIter) '.mat']);
             save(name,'nSig','PSNR','SSIM','mPSNR','mSSIM','mT512','sT512','mT256','sT256');
         end
     end
