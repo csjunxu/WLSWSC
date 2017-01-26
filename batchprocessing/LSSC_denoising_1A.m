@@ -1,4 +1,4 @@
-function  [im_out,par]    =   LSSC_Sigma_1AG(par)
+function  [im_out,par]    =   LSSC_denoising_1A(par)
 im_in = par.nim;
 im_out    =   par.nim;
 par.nSig0 = par.nSig;
@@ -18,13 +18,13 @@ for ite  =  1 : par.outerIter
         par.nlsp = par.nlsp - 10;
         % searching  non-local patches
         blk_arr = Block_Matching( Y, par);
-        if ite == 1
-            Sigma = par.nSig0 * ones(size(Sigma));
-        end
+%         if ite == 1
+%             Sigma = par.nSig0 * ones(size(Sigma));
+%         end
     end
     % Weighted Sparse Coding
-    Y_hat = zeros(par.ps2, par.maxrc, 'single');
-    W_hat = zeros(par.ps2, par.maxrc, 'single');
+    Y_hat = zeros(par.ps2ch, par.maxrc, 'single');
+    W_hat = zeros(par.ps2ch, par.maxrc, 'single');
     for i = 1:par.lenrc
         index = blk_arr(:, i);
         nlY = Y( : , index );

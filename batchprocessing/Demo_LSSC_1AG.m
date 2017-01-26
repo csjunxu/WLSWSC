@@ -38,7 +38,7 @@ for delta = 0.08
             fprintf('The initial value of PSNR = %2.4f, SSIM = %2.4f \n', PSNR,SSIM);
             %
             time0 = clock;
-            [im_out, par]  =  LSSC_Sigma_1AG(par);
+            [im_out, par]  =  LSSC_denoising_1A(par);
             if size(par.I,1) == 512
                 T512 = [T512 etime(clock,time0)];
                 fprintf('Total elapsed time = %f s\n', (etime(clock,time0)) );
@@ -66,7 +66,7 @@ for delta = 0.08
         sT256 = std(T256);
         fprintf('The best PSNR result is at %d iteration. \n',idx);
         fprintf('The average PSNR = %2.4f, SSIM = %2.4f. \n', mPSNR(idx),mSSIM);
-        name = sprintf(['LSSC_Sigma_1AG_nSig' num2str(nSig) '_delta' num2str(delta) '_lsc' num2str(lambdasc) '_WIter' num2str(par.WWIter) '.mat']);
+        name = sprintf(['LSSC_1AG_nSig' num2str(nSig) '_delta' num2str(delta) '_lsc' num2str(lambdasc) '_WIter' num2str(par.WWIter) '.mat']);
         save(name,'nSig','PSNR','SSIM','mPSNR','mSSIM','mT512','sT512','mT256','sT256');
     end
 end
