@@ -39,7 +39,7 @@ for delta = 0.08
             fprintf('The initial value of PSNR = %2.4f, SSIM = %2.4f \n', PSNR,SSIM);
             %
             time0 = clock;
-            [im_out, par]  =  WLSSC_Sigma_1AG(par);
+            [im_out, par]  =  WLSSC_Sigma_1A(par);
             if size(par.I,1) == 512
                 T512 = [T512 etime(clock,time0)];
                 fprintf('Total elapsed time = %f s\n', (etime(clock,time0)) );

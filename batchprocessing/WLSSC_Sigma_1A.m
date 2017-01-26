@@ -1,6 +1,6 @@
-function  [im_out, par] = WLSSC_Sigma_1AG(par)
+function  [im_out, par] = WLSSC_Sigma_1A(par)
 im_in = par.nim;
-im_out    =   par.nim;
+im_out = par.nim;
 par.nSig0 = par.nSig;
 % parameters for noisy image
 [h,  w, ch] = size(im_out);
