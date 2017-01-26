@@ -16,7 +16,7 @@ for i=1:par.WWIter
     DT = norm(DT, 'fro');
     RT = sum(sum(abs(C)));
     f_curr = 0.5 * DT^2 + par.lambdasc * RT;
-    fprintf('LSSC Energy, %d th: %2.8f\n', i, f_curr);
+%     fprintf('LSSC Energy, %d th: %2.8f\n', i, f_curr);
     if (abs(f_prev - f_curr) / f_curr < par.epsilon)
         break;
     end

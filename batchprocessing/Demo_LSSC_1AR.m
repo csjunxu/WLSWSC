@@ -19,7 +19,7 @@ par.win = 20;   % size of window around the patch
 par.outerIter = 4;
 par.innerIter = 2;
 par.WWIter = 1;
-par.epsilon = 0.01;
+par.epsilon = 0.001;
 par.model = 2;
 
 for delta = 0
