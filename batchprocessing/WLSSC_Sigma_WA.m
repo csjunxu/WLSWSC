@@ -1,4 +1,4 @@
-function  [im_out,par]    =   WLSSC_Sigma_WAG(par)
+function  [im_out, par]    =   WLSSC_Sigma_WAG(par)
 im_in = par.nim;
 im_out    =   par.nim;
 par.nSig0 = par.nSig;
@@ -12,19 +12,19 @@ for ite  =  1 : par.outerIter
     % iterative regularization
     im_out = im_out + par.delta * (par.nim - im_out);
     % image to patches and estimate local noise variance
-    [Y, Sigma] = Image2Patch( im_out, im_in, par);
+    [Y, Sigma] = Image2Patch( im_out, im_in, par );
     % estimation of noise variance
-    if mod(ite-1,par.innerIter)==0
+    if mod(ite-1, par.innerIter)==0
         par.nlsp = par.nlsp - 10;
         % searching  non-local patches
-        blk_arr = Block_Matching( Y, par);
+        blk_arr = Block_Matching( Y, par );
         if ite == 1
             Sigma = par.nSig0 * ones(size(Sigma));
         end
     end
     % Weighted Sparse Coding
-    Y_hat = zeros(par.ps2, par.maxrc, 'single');
-    W_hat = zeros(par.ps2, par.maxrc, 'single');
+    Y_hat = zeros(par.ps2ch, par.maxrc, 'single');
+    W_hat = zeros(par.ps2ch, par.maxrc, 'single');
     for i = 1:par.lenrc
         index = blk_arr(:, i);
         nlY = Y( : , index );
