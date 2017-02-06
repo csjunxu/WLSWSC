@@ -21,10 +21,11 @@ par.innerIter = 2;
 par.WWIter = 1;
 par.epsilon = 0.001;
 par.model = 2;
+par.nSig = 0;
 
 for delta = 0
     par.delta = delta;
-    for lambdasc = [0.005 0.008 0.012 0.001]
+    for lambdasc = [0.006 0.007 0.009 0.01 0.011]
         par.lambdasc = lambdasc;
         PSNR = [];
         SSIM = [];
