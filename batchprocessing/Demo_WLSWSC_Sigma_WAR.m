@@ -48,7 +48,7 @@ for nSig = 0.1:0.05:0.25
                 par.nim = IMin;
                 par.imIndex = i;
                 t1=clock;
-                [IMout, par]  =  WLSWSC_Sigma_1AR(par);
+                [IMout, par]  =  WLSWSC_Sigma_WAR(par);
                 t2=clock;
                 etime(t2,t1)
                 alltime(par.imIndex)  = etime(t2, t1);
@@ -64,7 +64,7 @@ for nSig = 0.1:0.05:0.25
             mtime  = mean(alltime);
             mCCPSNR = mean(CCPSNR);
             mCCSSIM = mean(CCSSIM);
-            save(['WLSWSC_Sigma_1AR_nSig' num2str(nSig) '_lsc' num2str(lambdasc) '_WWIter' num2str(par.WWIter) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
+            save(['WLSWSC_Sigma_WAR_nSig' num2str(nSig) '_lsc' num2str(lambdasc) '_WWIter' num2str(par.WWIter) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
         end
     end
 end

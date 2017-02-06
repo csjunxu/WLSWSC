@@ -55,7 +55,7 @@ for delta = 0
                     par.nim = IMin;
                     par.imIndex = i;
                     t1=clock;
-                    [IMout, par]  =  WLSSC_RBF_1AR(par);
+                    [IMout, par]  =  WLSSC_RBF_WAR(par);
                     t2=clock;
                     etime(t2,t1)
                     alltime(par.imIndex)  = etime(t2, t1);
@@ -71,7 +71,7 @@ for delta = 0
                 mtime  = mean(alltime);
                 mCCPSNR = mean(CCPSNR);
                 mCCSSIM = mean(CCSSIM);
-                save(['WLSSC_RBF_1AR_nSig' num2str(nSig) '_delta' num2str(delta) '_lsc' num2str(lambdasc) '_lls' num2str(lambdals) '_WWIter' num2str(par.WWIter) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
+                save(['WLSSC_RBF_WAR_nSig' num2str(nSig) '_delta' num2str(delta) '_lsc' num2str(lambdasc) '_lls' num2str(lambdals) '_WWIter' num2str(par.WWIter) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
             end
         end
     end

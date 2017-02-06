@@ -1,4 +1,4 @@
-function  [im_out, par] = WLSWSC_Sigma_1AR(par)
+function  [im_out, par] = WLSWSC_Sigma_WAR(par)
 im_in = par.nim;
 im_out    =   par.nim;
 par.nSig0 = par.nSig;
@@ -34,10 +34,11 @@ for ite  =  1 : par.outerIter
         Wls = Sigma(blk_arr(:, i));
 %         Wls = ones(length(index), 1);
         nDCnlYhat = WLSWSC(nDCnlY, Wls, par);
+        % add DC components 
         nlYhat = bsxfun(@plus, nDCnlYhat, DC);
-        % add DC components and aggregation
-        Y_hat(:, index) = Y_hat(:, index) + nlYhat;
-        W_hat(:, index) = W_hat(:, index) + ones(par.ps2ch, par.nlsp);
+        % aggregation
+        Y_hat(:, index) = Y_hat(:, index) + bsxfun(@times, nlYhat, Wls);
+        W_hat(:, index) = W_hat(:, index) + repmat(Wls, [par.ps2ch, 1]);
     end
     % Reconstruction
     im_out = PGs2Image(Y_hat, W_hat, par);
