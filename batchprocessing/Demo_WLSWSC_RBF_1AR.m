@@ -23,11 +23,11 @@ par.model = 2;
 
 for nSig = 0.1:0.05:0.25
     par.nSig = nSig;
-    for lambdasc = [0.01 0.05 0.1]
+    for lambdasc = [0.1 0.5 1]
         par.lambdasc = lambdasc;
-        for lambdals = [0 0.1 -0.1 0.2]
+        for lambdals = [0.1 -0.1]
             par.lambdals = lambdals;
-            for WWIter = [1 100]
+            for WWIter = [100 1]
                 par.WWIter = WWIter;
                 PSNR = [];
                 SSIM = [];
