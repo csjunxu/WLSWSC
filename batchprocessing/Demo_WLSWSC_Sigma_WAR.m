@@ -59,8 +59,11 @@ for nSig = 0.1:0.05:0.25
                 %% output
                 %             imwrite(IMout, ['../cc_Results/Real_Offline/External_II_RGB_BID_' IMname '.png']);
             end
-            mPSNR = mean(PSNR);
-            mSSIM = mean(SSIM);
+            mPSNR=mean(par.PSNR,2);
+            [~, idx] = max(mPSNR);
+            PSNR =par.PSNR(idx,:);
+            SSIM = par.SSIM(idx,:);
+            mSSIM=mean(SSIM,2);
             mtime  = mean(alltime);
             mCCPSNR = mean(CCPSNR);
             mCCSSIM = mean(CCSSIM);

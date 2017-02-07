@@ -66,9 +66,12 @@ for delta = 0
                     %% output
                     %             imwrite(IMout, ['../cc_Results/Real_Offline/External_II_RGB_BID_' IMname '.png']);
                 end
-                mPSNR = mean(PSNR);
-                mSSIM = mean(SSIM);
-                mtime  = mean(alltime);
+        mPSNR=mean(par.PSNR,2);
+        [~, idx] = max(mPSNR);
+        PSNR =par.PSNR(idx,:);
+        SSIM = par.SSIM(idx,:);
+        mSSIM=mean(SSIM,2);
+        mtime  = mean(alltime);
                 mCCPSNR = mean(CCPSNR);
                 mCCSSIM = mean(CCSSIM);
                 save(['WLSSC_RBF_WAR_nSig' num2str(nSig) '_delta' num2str(delta) '_lsc' num2str(lambdasc) '_lls' num2str(lambdals) '_WWIter' num2str(par.WWIter) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');

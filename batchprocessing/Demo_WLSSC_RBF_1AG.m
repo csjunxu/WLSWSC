@@ -19,7 +19,7 @@ for delta = 0.08
     par.delta = delta;
     for lambdasc = 0.01:0.01:0.1
         par.lambdasc = lambdasc;
-        for lambdals = [0 0.1 -0.1 0.2] 
+        for lambdals = [0 0.1 -0.1 0.2]
             par.lambdals = lambdals;
             % record all the results in each iteration
             par.PSNR = zeros(par.outerIter, im_num, 'single');
@@ -63,6 +63,7 @@ for delta = 0.08
             PSNR =par.PSNR(idx,:);
             SSIM = par.SSIM(idx,:);
             mSSIM=mean(SSIM,2);
+            mtime  = mean(alltime);
             mT512 = mean(T512);
             sT512 = std(T512);
             mT256 = mean(T256);
