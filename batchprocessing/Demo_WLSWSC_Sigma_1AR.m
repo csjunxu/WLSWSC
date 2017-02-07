@@ -23,10 +23,10 @@ par.model = 2;
 
 for nSig = 0.1:0.05:0.25
     par.nSig = nSig;
-    for lambdasc = [0.01 0.05 0.1]
-        par.lambdasc = lambdasc;
-        for WWIter = [1 100]
-            par.WWIter = WWIter;
+    for WWIter = [100 1]
+        par.WWIter = WWIter;
+        for lambdasc = [0.05 0.1]
+            par.lambdasc = lambdasc;
             PSNR = [];
             SSIM = [];
             CCPSNR = [];
@@ -59,12 +59,12 @@ for nSig = 0.1:0.05:0.25
                 %% output
                 %             imwrite(IMout, ['../cc_Results/Real_Offline/External_II_RGB_BID_' IMname '.png']);
             end
-                  mPSNR=mean(par.PSNR,2);
-        [~, idx] = max(mPSNR);
-        PSNR =par.PSNR(idx,:);
-        SSIM = par.SSIM(idx,:);
-        mSSIM=mean(SSIM,2);
-        mtime  = mean(alltime);
+            mPSNR=mean(par.PSNR,2);
+            [~, idx] = max(mPSNR);
+            PSNR =par.PSNR(idx,:);
+            SSIM = par.SSIM(idx,:);
+            mSSIM=mean(SSIM,2);
+            mtime  = mean(alltime);
             mCCPSNR = mean(CCPSNR);
             mCCSSIM = mean(CCSSIM);
             save(['WLSWSC_Sigma_1AR_nSig' num2str(nSig) '_lsc' num2str(lambdasc) '_WWIter' num2str(par.WWIter) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
