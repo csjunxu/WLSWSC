@@ -69,7 +69,7 @@ for delta = 0.08
             sT256 = std(T256);
             fprintf('The best PSNR result is at %d iteration. \n',idx);
             fprintf('The average PSNR = %2.4f, SSIM = %2.4f. \n', mPSNR(idx),mSSIM);
-            name = sprintf(['WLSWSC_BP_m' num2str(par.model) '_nSig' num2str(nSig) '_delta' num2str(delta) '_lsc' num2str(lambdasc) '_lls' num2str(lambdals) '_WIter' num2str(par.WWIter) '.mat']);
+            name = sprintf(['WLSWSC_RBF_1AG_m' num2str(par.model) '_nSig' num2str(nSig) '_delta' num2str(delta) '_lsc' num2str(lambdasc) '_lls' num2str(lambdals) '_WIter' num2str(par.WWIter) '.mat']);
             save(name,'nSig','PSNR','SSIM','mPSNR','mSSIM','mT512','sT512','mT256','sT256');
         end
     end

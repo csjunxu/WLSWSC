@@ -12,8 +12,8 @@ TT_im_dir  = dir(TT_fpath);
 im_num = length(TT_im_dir);
 
 % parameters
-par.step = 3;       % the step of two neighbor patches
-par.ps = 6;        % patch size
+par.step = 3;    % the step of two neighbor patches
+par.ps = 6;       % patch size
 par.win = 20;   % size of window around the patch
 
 par.outerIter = 4;
@@ -23,7 +23,7 @@ par.model = 2;
 
 for nSig = 0.1:0.05:0.25
     par.nSig = nSig;
-    for lambdasc = [0.1 0.3 0.5 1]
+    for lambdasc = [0.01 0.03 0.05 0.1]
         par.lambdasc = lambdasc;
         for lambdals = [0.01 -0.01 0.05 -0.05]
             par.lambdals = lambdals;

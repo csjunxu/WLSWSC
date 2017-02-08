@@ -17,7 +17,7 @@ par.win = max(3*par.ps, 20);
 
 par.outerIter = 4;
 par.innerIter = 2;
-par.WWIter = 1;
+par.WWIter = 100;
 par.epsilon = 0.001;
 par.model = 2;
 

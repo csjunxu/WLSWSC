@@ -17,17 +17,17 @@ par.win = max(3*par.ps, 20);
 
 par.outerIter = 4;
 par.innerIter = 2;
-par.WWIter = 1;
+par.WWIter = 100;
 par.epsilon = 0.001;
 par.model = 2;
 
 for delta = 0
     par.delta = delta;
-    for nSig = .1:.1:.3
+    for nSig = 0.1:0.05:0.2
         par.nSig = nSig;
-        for lambdasc = 0.01:0.01:0.1
+        for lambdasc = 0.01:0.01:0.05
             par.lambdasc = lambdasc;
-            for lambdals = [0 0.1 -0.1 0.2]
+            for lambdals = [0.1 1]
                 par.lambdals = lambdals;
                 PSNR = [];
                 SSIM = [];
@@ -66,12 +66,12 @@ for delta = 0
                     %% output
                     %             imwrite(IMout, ['../cc_Results/Real_Offline/External_II_RGB_BID_' IMname '.png']);
                 end
-        mPSNR=mean(par.PSNR,2);
-        [~, idx] = max(mPSNR);
-        PSNR =par.PSNR(idx,:);
-        SSIM = par.SSIM(idx,:);
-        mSSIM=mean(SSIM,2);
-        mtime  = mean(alltime);
+                mPSNR=mean(par.PSNR,2);
+                [~, idx] = max(mPSNR);
+                PSNR =par.PSNR(idx,:);
+                SSIM = par.SSIM(idx,:);
+                mSSIM=mean(SSIM,2);
+                mtime  = mean(alltime);
                 mCCPSNR = mean(CCPSNR);
                 mCCSSIM = mean(CCSSIM);
                 save(['WLSSC_RBF_WAR_nSig' num2str(nSig) '_delta' num2str(delta) '_lsc' num2str(lambdasc) '_lls' num2str(lambdals) '_WWIter' num2str(par.WWIter) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');

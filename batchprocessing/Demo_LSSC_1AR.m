@@ -18,14 +18,15 @@ par.win = 20;   % size of window around the patch
 
 par.outerIter = 4;
 par.innerIter = 2;
-par.WWIter = 10;
 par.epsilon = 0.001;
 par.model = 2;
 par.nSig = 0;
 
+
+par.WWIter = 100;
 for delta = 0
     par.delta = delta;
-    for lambdasc = [0.008 0.009 0.01 0.011]
+    for lambdasc = [0.01 0.05 0.1]
         par.lambdasc = lambdasc;
         PSNR = [];
         SSIM = [];
