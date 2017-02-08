@@ -1,13 +1,13 @@
 % double weighted: weighted least square and weighted sparse coding framework
-function  X = WLSWSC(Y, Wls, par)
+function  X = WLSWSCNew(Y, Wls, par)
 % initialize D and S
 YW = bsxfun(@times, Y, Wls);
 [U, S, V] = svd(YW * YW', 'econ');
 D = V * U';
 S = diag(S);
 % fixed W for weighted sparse coding
-Wsc = bsxfun(@rdivide, par.lambdasc * Wls .^ 2, S + eps ); % sqrt(S) ?
- 
+Wsc = par.lambdasc ./ (bsxfun(@times,  Wls .^ 2, S) + eps); % sqrt(S) ?
+
 f_curr = 0;
 for i=1:par.WWIter
     f_prev = f_curr;
@@ -17,12 +17,12 @@ for i=1:par.WWIter
     % update D
     if par.model == 1
         % model 1
-        CW = bsxfun(@times, C, Wls);
+        CW = bsxfun( @times, C, Wls );
         [U, ~, V] = svd( CW * Y', 'econ');
     else
         % model 2
-        CW = bsxfun(@times, C, Wls);
-        YW = bsxfun(@times, Y, Wls);
+        CW = bsxfun( @times, C, Wls );
+        YW = bsxfun( @times, Y, Wls );
         [U, ~, V] = svd( CW * YW', 'econ');
     end
     D = V * U';
