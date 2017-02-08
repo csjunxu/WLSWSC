@@ -1,4 +1,4 @@
-function  [im_out,par]    =   LSSC_denoising_1A(par)
+function  [im_out, par] = LSWSC_Sigma_1AR(par)
 im_out    =   par.nim;
 % parameters for noisy image
 [h,  w, ch]      =  size(im_out);
@@ -7,15 +7,15 @@ par.w = w;
 par.ch = ch;
 par = SearchNeighborIndex( par );
 for ite  =  1 : par.outerIter
-    % iterative regularization
-    im_out = im_out + par.delta * (par.nim - im_out);
+    %     % iterative regularization
+    %     im_out = im_out+par.delta*(par.nim - im_out);
     % image to patches and estimate local noise variance
-    Y = Image2PatchNew( im_out, par);
+    Y = Image2PatchNew( im_out, par );
     % estimation of noise variance
-    if mod(ite-1,par.innerIter)==0
+    if mod(ite-1, par.innerIter)==0
         par.nlsp = par.nlsp - 10;
         % searching  non-local patches
-        blk_arr = Block_Matching( Y, par);
+        blk_arr = Block_Matching( Y, par );
     end
     % Weighted Sparse Coding
     Y_hat = zeros(par.ps2ch, par.maxrc, 'single');
@@ -25,9 +25,7 @@ for ite  =  1 : par.outerIter
         nlY = Y( : , index );
         DC = mean(nlY, 2);
         nDCnlY = bsxfun(@minus, nlY, DC);
-        % Recovered Estimated Patches by weighted least square and weighted
-        % sparse coding model
-        nDCnlYhat = LSSC(nDCnlY, par);
+        nDCnlYhat = LSWSC(nDCnlY, par);
         % add DC components 
         nlYhat = bsxfun(@plus, nDCnlYhat, DC);
         % aggregation
