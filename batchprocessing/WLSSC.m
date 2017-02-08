@@ -2,7 +2,7 @@
 function  X = WLSSC(Y, Wls, par)
 % initialize D
 YW = bsxfun(@times, Y, Wls);
-[U, ~, V] = svd(YW * Y', 'econ');
+[U, ~, V] = svd(YW * YW', 'econ');
 D = V * U';
 % update W for weighted sparse coding
 W = par.lambdasc * Wls .^ 2;
