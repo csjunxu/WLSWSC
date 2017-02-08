@@ -1,4 +1,4 @@
-function  [im_out, par]    =   WLSSC_Sigma_WAG(par)
+function  [im_out, par]    =   WLSSC_Sigma_WA(par)
 im_in = par.nim;
 im_out    =   par.nim;
 par.nSig0 = par.nSig;
