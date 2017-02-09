@@ -31,9 +31,8 @@ for ite  =  1 : par.outerIter
         DC = mean(nlY, 2);
         nDCnlY = bsxfun(@minus, nlY, DC);
         % update Wei for least square
-        Wls = Sigma(blk_arr(:, i));
-%         Wls = ones(length(index), 1);
-        nDCnlYhat = WLSWSC(nDCnlY, Wls, par);
+        Wls = 1 ./ Sigma(index);
+        nDCnlYhat = WLSWSCNew(nDCnlY, Wls, par);
         % add DC components 
         nlYhat = bsxfun(@plus, nDCnlYhat, DC);
         % aggregation

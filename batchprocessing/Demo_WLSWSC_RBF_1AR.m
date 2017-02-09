@@ -69,7 +69,7 @@ for nSig = 0.1:0.05:0.25
                 mtime  = mean(alltime);
                 mCCPSNR = mean(CCPSNR);
                 mCCSSIM = mean(CCSSIM);
-                save(['WLSWSC_RBF_1AR_nSig' num2str(nSig) '_lsc' num2str(lambdasc) '_lsc' num2str(lambdals)  '_WWIter' num2str(par.WWIter) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
+                save(['WLSWSC_RBF_1AR_nSig' num2str(nSig) '_lsc' num2str(lambdasc) '_lls' num2str(lambdals)  '_WWIter' num2str(par.WWIter) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
             end
         end
     end
