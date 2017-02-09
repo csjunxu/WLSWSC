@@ -34,7 +34,7 @@ for ite  =  1 : par.outerIter
         % weighted least square and weighted sparse coding
         nDCnlYhat = WLSWSCNew(nDCnlY, Wls(index), par);
         % update Weighting matrix for weighted least square
-        Wls(index) = par.lambdals ./ sqrt(abs(Sigma(blk_arr(:, i)) - mean((nDCnlY - nDCnlY).^2)));
+        Wls(index) = par.lambdals ./ sqrt(abs(Sigma(index) - mean((nDCnlY - nDCnlY).^2)));
         % add DC components
         nlYhat = bsxfun(@plus, nDCnlYhat, DC);
         % aggregation
