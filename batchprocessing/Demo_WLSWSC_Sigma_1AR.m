@@ -23,7 +23,7 @@ par.model = 2;
 
 for nSig = 0.1:0.05:0.25
     par.nSig = nSig;
-    for WWIter = [100 1]
+    for WWIter = 100
         par.WWIter = WWIter;
         for lambdasc = [0.02 0.03 0.04]
             par.lambdasc = lambdasc;
