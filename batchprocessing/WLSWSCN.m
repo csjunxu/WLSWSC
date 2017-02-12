@@ -6,7 +6,7 @@ YW = bsxfun(@times, Y, Wls);
 [U, S, V] = svd(YW * YW', 'econ');
 D = V * U';
 % update S
-S         =   sqrt(max( diag(S) - size(Y, 2) * invWls(1)^2, 0 )); % like WNNM
+S         =   sqrt(max( diag(S) - size(Y, 2) * invWls(1)^2, 0 )); 
 % update left weighting matrix W for weighted sparse coding
 Wsc = bsxfun(@rdivide, par.lambdasc * invWls .^ 2, sqrt(S) + eps ); % sqrt(S) ?
 % Wsc = par.lambdasc ./ (bsxfun(@times,  Wls .^ 2, sqrt(S)) + eps);

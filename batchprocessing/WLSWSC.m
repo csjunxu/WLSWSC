@@ -6,7 +6,7 @@ YW = bsxfun(@times, Y, Wls);
 D = V * U';
 S = diag(S);
 % fixed W for weighted sparse coding
-Wsc = bsxfun(@rdivide, par.lambdasc * Wls .^ 2, S + eps ); % sqrt(S) ?
+Wsc = bsxfun(@rdivide, par.lambdasc * Wls .^ 2, sqrt(S) + eps ); % sqrt(S) ?
  
 f_curr = 0;
 for i=1:par.WWIter
