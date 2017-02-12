@@ -4,7 +4,8 @@ function  X = WLSWSCNew(Y, Wls, par)
 YW = bsxfun(@times, Y, Wls);
 [U, S, V] = svd(YW * YW', 'econ');
 D = V * U';
-S = diag(S);
+% update S
+S         =   sqrt(max( diag(S) - size(Y, 2) ./ Wls(1)^2, 0 )); % change size(Y, 2) to some parameter would be better?
 % fixed W for weighted sparse coding
 Wsc = par.lambdasc ./ (bsxfun(@times,  Wls .^ 2, sqrt(S)) + eps);
 
