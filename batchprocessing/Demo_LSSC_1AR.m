@@ -24,7 +24,7 @@ par.WWIter = 100;
 
 for delta = 0
     par.delta = delta;
-    for lambdasc = [0.01 0.05 0.1]
+    for lambdasc = [0.02 0.03 0.04]
         par.lambdasc = lambdasc;
         PSNR = [];
         SSIM = [];
