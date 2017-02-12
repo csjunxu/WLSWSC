@@ -21,7 +21,8 @@ par.innerIter = 2;
 par.epsilon = 0.01;
 par.model = 2;
 
-for nSig = 0.1:0.05:0.25
+for nSig = 0.2
+    :0.05:0.25
     par.nSig = nSig;
     for WWIter = 100
         par.WWIter = WWIter;

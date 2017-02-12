@@ -1,14 +1,15 @@
 % double weighted: weighted least square and weighted sparse coding framework
 function  X = WLSWSCN(Y, Wls, par)
 % initialize D and S
+invWls = 1 ./ Wls;
 YW = bsxfun(@times, Y, Wls);
 [U, S, V] = svd(YW * YW', 'econ');
 D = V * U';
 % update S
-S         =   sqrt(max( diag(S) - size(Y, 2) ./ Wls(1)^2, 0 )); % like WNNM
-%         S         =   sqrt(max( diag(S) - size(Y, 2) ./ Wls .^ 2, 0 )); % not reasonable patch-wise
+S         =   sqrt(max( diag(S) - size(Y, 2) * invWls(1)^2, 0 )); % like WNNM
 % update left weighting matrix W for weighted sparse coding
-Wsc = par.lambdasc ./ (bsxfun(@times,  Wls .^ 2, sqrt(S)) + eps);
+Wsc = bsxfun(@rdivide, par.lambdasc * invWls .^ 2, sqrt(S) + eps ); % sqrt(S) ?
+% Wsc = par.lambdasc ./ (bsxfun(@times,  Wls .^ 2, sqrt(S)) + eps);
 f_curr = 0;
 for i=1:par.WWIter
     f_prev = f_curr;
