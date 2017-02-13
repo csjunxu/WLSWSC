@@ -1,3 +1,17 @@
+% 5dmark3_iso3200_1_real.png: 
+% The initial PSNR = 37.0024, SSIM = 0.9345. 
+% Iter 1 : PSNR = 37.5440, SSIM = 0.9389
+% Iter 2 : PSNR = 39.1665, SSIM = 0.9801
+% Iter 3 : PSNR = 38.9396, SSIM = 0.9797
+% Iter 4 : PSNR = 36.7803, SSIM = 0.9736
+% 
+% ans =
+% 
+%    1.3634e+04
+% 
+% The final PSNR = 36.7803, SSIM = 0.9736. 
+
+
 clear;
 % GT_Original_image_dir = 'C:\Users\csjunxu\Desktop\CVPR2017\cc_Results\Real_MeanImage\';
 % GT_fpath = fullfile(GT_Original_image_dir, '*.png');
