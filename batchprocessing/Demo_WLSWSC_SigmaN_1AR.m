@@ -22,11 +22,11 @@ par.epsilon = 0.01;
 par.model = 2;
 par.WWIter = 100;
 
-for nSig0 = 0.1:0.05:0.2
+for nSig0 = 0.1:0.05:0.25
     par.nSig0 = nSig0;
-    for lambdals = 0.9:-0.1:0.7
+    for lambdals = 1:-0.1:0.8
         par.lambdals = lambdals;
-        for lambdasc = 2
+        for lambdasc = 2.2:0.2:3
             par.lambdasc = lambdasc;
             PSNR = [];
             SSIM = [];
