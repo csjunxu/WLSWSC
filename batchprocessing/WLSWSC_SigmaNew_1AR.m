@@ -6,6 +6,7 @@ par.h = h;
 par.w = w;
 par.ch = ch;
 par = SearchNeighborIndex( par );
+%
 Sigma = ones(1, par.maxrc);
 Wls = ones(1, par.maxrc); % invWls is the inverse of Wls and equals to 1 ./ Wls;
 for ite  =  1 : par.outerIter
@@ -34,7 +35,7 @@ for ite  =  1 : par.outerIter
         % weighted least square and weighted sparse coding
         nDCnlYhat = WLSWSCNew(nDCnlY, Wls(index), par);
         % update Weighting matrix for weighted least square
-        Wls(index) = par.lambdals ./ sqrt(abs(Sigma(index) - mean((nDCnlY - nDCnlY).^2)));
+        Wls(index) = par.lambdals ./ sqrt(abs(Sigma(index) - mean((nDCnlY - nDCnlYhat).^2)));
         % add DC components
         nlYhat = bsxfun(@plus, nDCnlYhat, DC);
         % aggregation

@@ -23,12 +23,12 @@ par.model = 2;
 par.WWIter = 100;
 
 
-for lambdaw = 1:-0.1:0.6
-    par.lambdaw = lambdaw;
+for lambdasc = 2:0.5:4
+    par.lambdasc = lambdasc;
     for lambdals = 1:-0.1:0.7
         par.lambdals = lambdals;
-        for lambdasc = 2:0.5:4
-            par.lambdasc = lambdasc;
+        for lambdaw = 2:0.5:5
+            par.lambdaw = lambdaw;
             PSNR = [];
             SSIM = [];
             CCPSNR = [];
