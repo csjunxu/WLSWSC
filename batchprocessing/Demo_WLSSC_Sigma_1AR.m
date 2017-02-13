@@ -24,8 +24,8 @@ par.model = 2;
 
 for delta = 0
     par.delta = delta;
-    for nSig = 0.1:0.05:0.2
-        par.nSig = nSig;
+    for nSig0 = 0.1:0.05:0.2
+        par.nSig0 = nSig0;
         for lambdasc = [0.01 0.1]
             par.lambdasc = lambdasc;
             PSNR = [];
@@ -68,7 +68,7 @@ for delta = 0
             mtime  = mean(alltime);
             mCCPSNR = mean(CCPSNR);
             mCCSSIM = mean(CCSSIM);
-            save(['WLSSC_Sigma_1AR_nSig' num2str(nSig) '_delta' num2str(delta) '_lsc' num2str(lambdasc) '_WWIter' num2str(par.WWIter) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
+            save(['WLSSC_Sigma_1AR_nSig' num2str(nSig0) '_delta' num2str(delta) '_lsc' num2str(lambdasc) '_WWIter' num2str(par.WWIter) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
         end
     end
 end
