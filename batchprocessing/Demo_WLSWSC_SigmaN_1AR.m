@@ -24,9 +24,9 @@ par.WWIter = 100;
 
 for nSig0 = 0.1:0.05:0.25
     par.nSig0 = nSig0;
-    for lambdals = 1:-0.1:0.8
+    for lambdals = 1:.1:1.5
         par.lambdals = lambdals;
-        for lambdasc = 2.5:0.1:3
+        for lambdasc = 3.5:0.5:5
             par.lambdasc = lambdasc;
             PSNR = [];
             SSIM = [];
