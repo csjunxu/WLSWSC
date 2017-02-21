@@ -1,12 +1,11 @@
 % single weighted: weighted least square and sparse coding framework
 function  X = WLSSC(Y, Wls, par)
 % initialize D
-invWls = 1 ./ Wls;
 YW = bsxfun(@times, Y, Wls);
 [U, ~, V] = svd(YW * YW', 'econ');
 D = V * U';
 % update W for weighted sparse coding
-Wsc = par.lambdasc * invWls .^ 2;
+Wsc = par.lambdasc ./Wls.^2;
 f_curr = 0;
 for i=1:par.WWIter
     f_prev = f_curr;
