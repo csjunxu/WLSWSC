@@ -19,7 +19,8 @@ for ite  =  1 : par.outerIter
         % searching  non-local patches
         blk_arr = Block_Matching( Y, par);
         if ite == 1
-            Wls = par.nSig0 * ones(size(Sigma));
+            Sigma = par.nSig0 * ones(size(Sigma));
+            Wls = Sigma;
         end
     end
     % Weighted Sparse Coding
@@ -30,6 +31,7 @@ for ite  =  1 : par.outerIter
         nlY = Y( : , index );
         DC = mean(nlY, 2);
         nDCnlY = bsxfun(@minus, nlY, DC);
+        par.Sigma = Sigma(index(1));
         % Recovered Estimated Patches by weighted least square and weighted
         % sparse coding model
         nDCnlYhat = WLSSC(nDCnlY, Wls(index), par);
