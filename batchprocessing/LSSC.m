@@ -8,7 +8,7 @@ for i=1:par.WWIter
     % update C by soft thresholding
     B = D' * Y;
     C = sign(B) .* max(abs(B) - par.lambdasc * par.nSig^2, 0);
-    C = sign(B) .* max(abs(B) - par.lambdasc, 0);
+%     C = sign(B) .* max(abs(B) - par.lambdasc, 0);
     % update D
     [U, ~, V] = svd( C * Y', 'econ');
     D = V * U';
