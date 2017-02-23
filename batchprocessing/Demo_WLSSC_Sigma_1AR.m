@@ -24,9 +24,9 @@ par.model = 2;
 
 for delta = 0
     par.delta = delta;
-    for nSig0 = 0.1:0.05:0.2
+    for nSig0 = 0.1:-0.01:0.05
         par.nSig0 = nSig0;
-        for lambdasc = [2.5 3 3.2 3.5]
+        for lambdasc = 2.6:0.1:2.9
             par.lambdasc = lambdasc;
             PSNR = [];
             SSIM = [];
