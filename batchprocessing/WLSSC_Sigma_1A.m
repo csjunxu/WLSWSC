@@ -34,6 +34,7 @@ for ite  =  1 : par.outerIter
         DC = mean(nlY, 2);
         % update right weighting matrix W for weighted least square
         Wls = 1 ./ Sigma(index);
+        par.Sigma = Sigma(index(1));
         nDCnlY = bsxfun(@minus, nlY, DC);
         % Recovered Estimated Patches by weighted least square and weighted
         % sparse coding model
