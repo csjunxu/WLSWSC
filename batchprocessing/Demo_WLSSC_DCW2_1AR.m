@@ -22,7 +22,7 @@ par.epsilon = 0.005;
 par.model = 2;
 par.WWIter = 10;
 par.delta = 0;
-for lambdasc = [1e2 1e3 1e4 1e5]
+for lambdasc = [0.01 0.1 0.5 1 10]
     par.lambdasc = lambdasc;
     PSNR = [];
     SSIM = [];
@@ -46,7 +46,7 @@ for lambdasc = [1e2 1e3 1e4 1e5]
         par.nim = IMin;
         par.imIndex = i;
         t1=clock;
-        [IMout, par]  =  WLSSC_DCW_1AR(par);
+        [IMout, par]  =  WLSSC_DCW2_1AR(par);
         t2=clock;
         etime(t2,t1)
         alltime(par.imIndex)  = etime(t2, t1);
@@ -65,5 +65,5 @@ for lambdasc = [1e2 1e3 1e4 1e5]
     mtime  = mean(alltime);
     mCCPSNR = mean(CCPSNR);
     mCCSSIM = mean(CCSSIM);
-    save(['WLSSC_DCW_1AR_lsc' num2str(lambdasc) '_Iter' num2str(par.WWIter) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
+    save(['WLSSC_DCW2_1AR_lsc' num2str(lambdasc) '_Iter' num2str(par.WWIter) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
 end

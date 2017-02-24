@@ -22,7 +22,7 @@ par.epsilon = 0.005;
 par.model = 2;
 par.WWIter = 10;
 par.delta = 0;
-for lambdasc = [1e2 1e3 1e4 1e5]
+for lambdasc = [100 1000 1e4 1e5]
     par.lambdasc = lambdasc;
     PSNR = [];
     SSIM = [];
@@ -32,7 +32,7 @@ for lambdasc = [1e2 1e3 1e4 1e5]
         par.nlsp = 70;  % number of non-local patches
         par.image = i;
         IMin = im2double(imread(fullfile(TT_Original_image_dir, TT_im_dir(i).name) ));
-        par.nSig = NoiseEstimation(IMin * 255, 6);
+        par.nSig = NoiseEstimation(IMin, 6);
         IM_GT = im2double(imread(fullfile(GT_Original_image_dir, GT_im_dir(i).name)));
         S = regexp(TT_im_dir(i).name, '\.', 'split');
         IMname = S{1};
@@ -46,7 +46,7 @@ for lambdasc = [1e2 1e3 1e4 1e5]
         par.nim = IMin;
         par.imIndex = i;
         t1=clock;
-        [IMout, par]  =  WLSSC_DCW_1AR(par);
+        [IMout, par]  =  LSSC_DC_1AR(par);
         t2=clock;
         etime(t2,t1)
         alltime(par.imIndex)  = etime(t2, t1);
@@ -65,5 +65,5 @@ for lambdasc = [1e2 1e3 1e4 1e5]
     mtime  = mean(alltime);
     mCCPSNR = mean(CCPSNR);
     mCCSSIM = mean(CCSSIM);
-    save(['WLSSC_DCW_1AR_lsc' num2str(lambdasc) '_Iter' num2str(par.WWIter) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
+    save(['LSSC_DC_1AR_lsc' num2str(lambdasc) '_Iter' num2str(par.WWIter) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
 end
