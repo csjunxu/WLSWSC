@@ -12,17 +12,17 @@ TT_im_dir  = dir(TT_fpath);
 im_num = length(TT_im_dir);
 
 % parameters
-par.ps = 6;        % patch size
-par.step = 3;       % the step of two neighbor patches
+par.ps = 6;       % patch size
+par.step = 5;    % the step of two neighbor patches
 par.win = 20;   % size of window around the patch
 
 par.outerIter = 4;
 par.innerIter = 2;
 par.epsilon = 0.01;
-par.nSig = 0;
+par.model = 2;
 par.WWIter = 100;
 par.delta = 0;
-for lambdasc = [0.08 0.05 0.03 0.01 ]
+for lambdasc = [0.01]
     par.lambdasc = lambdasc;
     PSNR = [];
     SSIM = [];
@@ -32,8 +32,8 @@ for lambdasc = [0.08 0.05 0.03 0.01 ]
         par.nlsp = 70;  % number of non-local patches
         par.image = i;
         IMin = im2double(imread(fullfile(TT_Original_image_dir, TT_im_dir(i).name) ));
-        IM_GT = im2double(imread(fullfile(GT_Original_image_dir, GT_im_dir(i).name)));
         par.nSig = NoiseEstimation(IMin * 255, 6);
+        IM_GT = im2double(imread(fullfile(GT_Original_image_dir, GT_im_dir(i).name)));
         S = regexp(TT_im_dir(i).name, '\.', 'split');
         IMname = S{1};
         [h,w,ch] = size(IMin);
@@ -46,7 +46,7 @@ for lambdasc = [0.08 0.05 0.03 0.01 ]
         par.nim = IMin;
         par.imIndex = i;
         t1=clock;
-        [IMout, par]  =  LSSC_NL_1A(par);
+        [IMout, par]  =  LSSC_NL_1AR(par);
         t2=clock;
         etime(t2,t1)
         alltime(par.imIndex)  = etime(t2, t1);

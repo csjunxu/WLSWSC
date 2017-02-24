@@ -1,4 +1,4 @@
-function  [im_out,par]    =   LSSC_NL_1A(par)
+function  [im_out,par]    =   LSSC_NL_1AR(par)
 im_out    =   par.nim;
 % parameters for noisy image
 [h,  w, ch]      =  size(im_out);
