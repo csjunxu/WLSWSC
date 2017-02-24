@@ -8,11 +8,13 @@ par.h = h;
 par.w = w;
 par.ch = ch;
 par = SearchNeighborIndex( par );
+NY = Image2PatchNew( par.nim, par);
 for ite  =  1 : par.outerIter
     % iterative regularization
     im_out = im_out + par.delta * (par.nim - im_out);
     % image to patches and estimate local noise variance
-    [Y, Sigma] = Image2Patch( im_out, im_in, par);
+    Y = Image2PatchNew( im_out, par);
+    Sigma = sqrt(abs(repmat(par.nSig0^2, 1, size(Y, 2)) - mean((NY - Y).^2))); %Estimated Local Noise Level
     % estimation of noise variance
     if mod(ite-1,par.innerIter)==0
         par.nlsp = par.nlsp - 10;
