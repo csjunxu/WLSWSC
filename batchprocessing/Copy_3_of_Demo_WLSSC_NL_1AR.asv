@@ -67,6 +67,6 @@ for lambdasc = [0.05]
             mtime  = mean(alltime);
             mCCPSNR = mean(CCPSNR);
             mCCSSIM = mean(CCSSIM);
-            save(['WLSSC_NL_1AR_lsc' num2str(lambdasc) '_lls1' num2str(lambdals1) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
+            save(['WLSSC_NL_1AR_lsc' num2str(lambdasc) '_lls1' num2str(lambdals1)  '_lls2' num2str(lambdals2) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
         end
 end
