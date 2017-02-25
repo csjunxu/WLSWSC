@@ -25,8 +25,8 @@ for i=1:par.WWIter
     end
     D = V * U';
     % update weight for least square
-    res = sqrt(sum((Y - D * C) .^2, 1) / size(Y, 1));
-    Wls = 1 ./ Sigma .* mean(res) ./ res;
+%     res = sqrt(sum((Y - D * C) .^2, 1) / size(Y, 1));
+%     Wls = 1 ./ Sigma .* mean(res) ./ res;
     % energy function
     DT = bsxfun(@times, Y - D * C, Wls);
     DT = norm(DT, 'fro');
