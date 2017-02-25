@@ -23,7 +23,7 @@ for ite  =  1 : par.outerIter
         blk_arr = Block_Matching( Y, par);
         if par.ite == 1
             Sigma = par.nSig0 * ones(size(Sigma));
-                Wls = 1 ./ Sigma;
+            Wls = 1 ./ Sigma;
         end
     end
     % Weighted Sparse Coding

@@ -1,14 +1,14 @@
 % single weighted: weighted least square and sparse coding framework
-function  X = WLSSC_DCW2(Y, Wls, par)
+function  X = WLSSC_DCW2(Y, Sigma, Wls, par)
 % initialize D
 YW = bsxfun(@times, Y, Wls);
 [U, ~, V] = svd(YW * YW', 'econ');
 D = V * U';
 f_curr = 0;
-% update W for weighted sparse coding
-Wsc = par.lambdasc ./ Wls.^2;
 for i=1:par.WWIter
     f_prev = f_curr;
+    % update W for weighted sparse coding
+    Wsc = par.lambdasc .* Sigma.^2 ./ Wls.^2;
     % update C by soft thresholding
     B = D' * Y;
     C = sign(B) .* max(abs(B) - repmat(Wsc, [size(B, 1), 1]), 0);
@@ -24,6 +24,8 @@ for i=1:par.WWIter
         [U, ~, V] = svd( CW * YW', 'econ');
     end
     D = V * U';
+    % update weight for least square
+    Wls = exp( -par.lambdals .* sum((nDCnlY - nDCnlYhat) .^2, 1) );
     % energy function
     DT = bsxfun(@times, Y - D * C, Wls);
     DT = norm(DT, 'fro');

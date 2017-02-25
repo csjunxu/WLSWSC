@@ -22,9 +22,10 @@ for ite  =  1 : par.outerIter
         blk_arr = Block_Matching( Y, par);
         if ite == 1
             Sigma = par.nSig0 * ones(size(Sigma));
-            Wls = 1 ./ Sigma;
         end
     end
+    % update weight for least square
+    Wls = exp( -par.lambdals .* Sigma.^2 );
     % Weighted Sparse Coding
     Y_hat = zeros(par.ps2ch, par.maxrc, 'single');
     W_hat = zeros(par.ps2ch, par.maxrc, 'single');
@@ -35,9 +36,7 @@ for ite  =  1 : par.outerIter
         nDCnlY = bsxfun(@minus, nlY, DC);
         % Recovered Estimated Patches by weighted least square and weighted
         % sparse coding model
-        nDCnlYhat = WLSSC_DCW2(nDCnlY, Wls(index), par);
-        % update weight for least square
-        Wls(index) = par.lambdals ./ sqrt(sum((nDCnlY - nDCnlYhat) .^2, 1)/size(nDCnlY, 1));
+        nDCnlYhat = WLSSC_DCW2(nDCnlY, Sigma(index), Wls(index), par);
         % add DC components
         nlYhat = bsxfun(@plus, nDCnlYhat, DC);
         % aggregation
