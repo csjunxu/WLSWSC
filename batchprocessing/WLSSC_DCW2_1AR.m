@@ -37,7 +37,7 @@ for ite  =  1 : par.outerIter
         % sparse coding model
         nDCnlYhat = WLSSC_DCW2(nDCnlY, Wls(index), par);
         % update weight for least square
-        Wls(index) = 1 ./ sqrt(sum((nDCnlY - nDCnlYhat) .^2, 1)/size(nDCnlY, 1));
+        Wls(index) = par.lambdals ./ sqrt(sum((nDCnlY - nDCnlYhat) .^2, 1)/size(nDCnlY, 1));
         % add DC components
         nlYhat = bsxfun(@plus, nDCnlYhat, DC);
         % aggregation
