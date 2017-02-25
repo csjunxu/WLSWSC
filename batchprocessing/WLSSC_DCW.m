@@ -8,7 +8,7 @@ f_curr = 0;
 for i=1:par.WWIter
     f_prev = f_curr;
     % update W for weighted sparse coding
-    Wsc = par.lambdasc ./ Wls.^2;
+    Wsc = par.lambdasc(par.ite) ./ Wls.^2;
     % update C by soft thresholding
     B = D' * Y;
     C = sign(B) .* max(abs(B) - repmat(Wsc, [size(B, 1), 1]), 0);

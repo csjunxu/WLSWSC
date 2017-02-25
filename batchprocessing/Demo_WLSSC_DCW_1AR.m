@@ -16,14 +16,14 @@ par.ps = 6;       % patch size
 par.step = 5;    % the step of two neighbor patches
 par.win = 20;   % size of window around the patch
 
-par.outerIter = 1;
+par.outerIter = 2;
 par.innerIter = 2;
 par.epsilon = 0.01;
 par.model = 2;
 par.WWIter = 100;
 par.delta = 0;
-for lambdasc = 610:10:900
-    par.lambdasc = lambdasc;
+for lambdasc = [100 10 1 0.1 0.01]
+    par.lambdasc = [610 lambdasc];
     PSNR = [];
     SSIM = [];
     CCPSNR = [];
@@ -65,5 +65,5 @@ for lambdasc = 610:10:900
     mtime  = mean(alltime);
     mCCPSNR = mean(CCPSNR);
     mCCSSIM = mean(CCSSIM);
-    save(['WLSSC_DCW_1AR_lsc' num2str(lambdasc) '_Iter' num2str(par.WWIter) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
+    save(['WLSSC_DCW_1AR_lsc' num2str(lambdasc(1)) '_' num2str(lambdasc(2)) '_Iter' num2str(par.WWIter) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
 end

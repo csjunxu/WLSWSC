@@ -10,17 +10,18 @@ par.ch = ch;
 par = SearchNeighborIndex( par );
 NY = Image2PatchNew( par.nim, par);
 for ite  =  1 : par.outerIter
+    par.ite = ite;
     % iterative regularization
     im_out = im_out + par.delta * (par.nim - im_out);
     % image to patches and estimate local noise variance
     Y = Image2PatchNew( im_out, par);
     Sigma = sqrt(abs(repmat(par.nSig0^2, 1, size(Y, 2)) - mean((NY - Y).^2))); %Estimated Local Noise Level
     % estimation of noise variance
-    if mod(ite-1,par.innerIter)==0
+    if mod(par.ite-1,par.innerIter)==0
         par.nlsp = par.nlsp - 10;
         % searching  non-local patches
         blk_arr = Block_Matching( Y, par);
-        if ite == 1
+        if par.ite == 1
             Sigma = par.nSig0 * ones(size(Sigma));
                 Wls = 1 ./ Sigma;
         end
@@ -47,9 +48,9 @@ for ite  =  1 : par.outerIter
     % calculate the PSNR
     PSNR =   csnr( im_out * 255, par.I * 255, 0, 0 );
     SSIM      =  cal_ssim( im_out * 255, par.I * 255, 0, 0 );
-    fprintf('Iter %d : PSNR = %2.4f, SSIM = %2.4f\n', ite, PSNR, SSIM);
-    par.PSNR(ite, par.image) = PSNR;
-    par.SSIM(ite, par.image) = SSIM;
+    fprintf('Iter %d : PSNR = %2.4f, SSIM = %2.4f\n', par.ite, PSNR, SSIM);
+    par.PSNR(par.ite, par.image) = PSNR;
+    par.SSIM(par.ite, par.image) = SSIM;
 end
 return;
 
