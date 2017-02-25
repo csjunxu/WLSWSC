@@ -1,5 +1,5 @@
 % single weighted: weighted least square and sparse coding framework
-function  X = WLSSC_DCW(Y, Wls, par)
+function  [X, Wls] = WLSSC_DCW(Y, Wls, par)
 % initialize D
 YW = bsxfun(@times, Y, Wls);
 [U, ~, V] = svd(YW * YW', 'econ');
@@ -25,7 +25,7 @@ for i=1:par.WWIter
     end
     D = V * U';
     % update weight for least square
-    Wls = 1 ./ sqrt(sum((Y - D * C) .^2, 1)/size(Y, 1));
+    Wls = par.lambdals ./ sqrt(sum((Y - D * C) .^2, 1)/size(Y, 1));
     % energy function
     DT = bsxfun(@times, Y - D * C, Wls);
     DT = norm(DT, 'fro');

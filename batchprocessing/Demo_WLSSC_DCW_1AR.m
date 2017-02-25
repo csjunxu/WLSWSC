@@ -24,46 +24,49 @@ par.WWIter = 100;
 par.delta = 0;
 for lambdasc = 610:10:900
     par.lambdasc = lambdasc;
-    PSNR = [];
-    SSIM = [];
-    CCPSNR = [];
-    CCSSIM = [];
-    for i = 1 : im_num
-        par.nlsp = 70;  % number of non-local patches
-        par.image = i;
-        IMin = im2double(imread(fullfile(TT_Original_image_dir, TT_im_dir(i).name) ));
-        par.nSig = NoiseEstimation(IMin, 6);
-        IM_GT = im2double(imread(fullfile(GT_Original_image_dir, GT_im_dir(i).name)));
-        S = regexp(TT_im_dir(i).name, '\.', 'split');
-        IMname = S{1};
-        [h,w,ch] = size(IMin);
-        fprintf('%s: \n', TT_im_dir(i).name);
-        CCPSNR = [CCPSNR csnr( IMin*255,IM_GT*255, 0, 0 )];
-        CCSSIM = [CCSSIM cal_ssim( IMin*255, IM_GT*255, 0, 0 )];
-        fprintf('The initial PSNR = %2.4f, SSIM = %2.4f. \n', CCPSNR(end), CCSSIM(end));
-        % read clean image
-        par.I = IM_GT;
-        par.nim = IMin;
-        par.imIndex = i;
-        t1=clock;
-        [IMout, par]  =  WLSSC_DCW_1AR(par);
-        t2=clock;
-        etime(t2,t1)
-        alltime(par.imIndex)  = etime(t2, t1);
-        %% output
-        PSNR = [PSNR csnr( IMout * 255, IM_GT * 255, 0, 0 )];
-        SSIM = [SSIM cal_ssim( IMout * 255, IM_GT * 255, 0, 0 )];
-        fprintf('The final PSNR = %2.4f, SSIM = %2.4f. \n', PSNR(end), SSIM(end));
-        %% output
-        %             imwrite(IMout, ['../cc_Results/Real_Offline/External_II_RGB_BID_' IMname '.png']);
+    for lambdals = [0.1 1]
+        par.lambdals = lambdals;
+        PSNR = [];
+        SSIM = [];
+        CCPSNR = [];
+        CCSSIM = [];
+        for i = 1 : im_num
+            par.nlsp = 70;  % number of non-local patches
+            par.image = i;
+            IMin = im2double(imread(fullfile(TT_Original_image_dir, TT_im_dir(i).name) ));
+            par.nSig = NoiseEstimation(IMin, 6);
+            IM_GT = im2double(imread(fullfile(GT_Original_image_dir, GT_im_dir(i).name)));
+            S = regexp(TT_im_dir(i).name, '\.', 'split');
+            IMname = S{1};
+            [h,w,ch] = size(IMin);
+            fprintf('%s: \n', TT_im_dir(i).name);
+            CCPSNR = [CCPSNR csnr( IMin*255,IM_GT*255, 0, 0 )];
+            CCSSIM = [CCSSIM cal_ssim( IMin*255, IM_GT*255, 0, 0 )];
+            fprintf('The initial PSNR = %2.4f, SSIM = %2.4f. \n', CCPSNR(end), CCSSIM(end));
+            % read clean image
+            par.I = IM_GT;
+            par.nim = IMin;
+            par.imIndex = i;
+            t1=clock;
+            [IMout, par]  =  WLSSC_DCW_1AR(par);
+            t2=clock;
+            etime(t2,t1)
+            alltime(par.imIndex)  = etime(t2, t1);
+            %% output
+            PSNR = [PSNR csnr( IMout * 255, IM_GT * 255, 0, 0 )];
+            SSIM = [SSIM cal_ssim( IMout * 255, IM_GT * 255, 0, 0 )];
+            fprintf('The final PSNR = %2.4f, SSIM = %2.4f. \n', PSNR(end), SSIM(end));
+            %% output
+            %             imwrite(IMout, ['../cc_Results/Real_Offline/External_II_RGB_BID_' IMname '.png']);
+        end
+        mPSNR=mean(par.PSNR,2);
+        [~, idx] = max(mPSNR);
+        PSNR =par.PSNR(idx,:);
+        SSIM = par.SSIM(idx,:);
+        mSSIM=mean(SSIM,2);
+        mtime  = mean(alltime);
+        mCCPSNR = mean(CCPSNR);
+        mCCSSIM = mean(CCSSIM);
+        save(['WLSSC_DCW_1AR_lsc' num2str(lambdasc) '_lls' num2str(lambdals) '_Iter' num2str(par.WWIter) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
     end
-    mPSNR=mean(par.PSNR,2);
-    [~, idx] = max(mPSNR);
-    PSNR =par.PSNR(idx,:);
-    SSIM = par.SSIM(idx,:);
-    mSSIM=mean(SSIM,2);
-    mtime  = mean(alltime);
-    mCCPSNR = mean(CCPSNR);
-    mCCSSIM = mean(CCSSIM);
-    save(['WLSSC_DCW_1AR_lsc' num2str(lambdasc) '_Iter' num2str(par.WWIter) '.mat'],'alltime','mtime','PSNR','mPSNR','SSIM','mSSIM','CCPSNR','mCCPSNR','CCSSIM','mCCSSIM');
 end
