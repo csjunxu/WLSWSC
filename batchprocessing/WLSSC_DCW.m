@@ -1,5 +1,5 @@
 % single weighted: weighted least square and sparse coding framework
-function  [X, Wls] = WLSSC_DCW(Y, Sigma, Wls, par)
+function  X = WLSSC_DCW(Y, Sigma, Wls, par)
 % initialize D
 YW = bsxfun(@times, Y, Wls);
 [U, ~, V] = svd(YW * YW', 'econ');
