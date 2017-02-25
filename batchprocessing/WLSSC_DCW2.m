@@ -25,7 +25,7 @@ for i=1:par.WWIter
     end
     D = V * U';
     % update weight for least square
-    Wls = exp( -par.lambdals .* sum((nDCnlY - nDCnlYhat) .^2, 1) );
+    Wls = exp( -par.lambdals .* sum((nDCnlY - nDCnlYhat) .^2, 1) ); % mean((nDCnlY - nDCnlYhat).^2))
     % energy function
     DT = bsxfun(@times, Y - D * C, Wls);
     DT = norm(DT, 'fro');
