@@ -25,7 +25,7 @@ for ite  =  1 : par.outerIter
         end
     end
     % update weight for least square
-    Wls = exp( -par.lambdals .* Sigma.^2 );
+    Wls = 1 ./ Sigma;
     % Weighted Sparse Coding
     Y_hat = zeros(par.ps2ch, par.maxrc, 'single');
     W_hat = zeros(par.ps2ch, par.maxrc, 'single');
