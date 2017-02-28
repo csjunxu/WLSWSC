@@ -19,7 +19,7 @@ for i=1:par.WWIter
     end
     D = V * U';
     % energy function
-    DT = bsxfun(@times, Y - D * C);
+    DT = Y - D * C;
     DT = norm(DT, 'fro');
     %     DT = DT(:)'*DT(:);
     RT = sum(sum(abs(C)));

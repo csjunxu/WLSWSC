@@ -11,7 +11,7 @@ par.ps = 8;       % patch size
 par.step = 5;    % the step of two neighbor patches
 par.win = 20;   % size of window around the patch
 
-par.outerIter = 4;
+par.outerIter = 8;
 par.innerIter = 2;
 par.epsilon = 0.01;
 par.model = 2;
