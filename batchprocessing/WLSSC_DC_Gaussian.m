@@ -16,15 +16,15 @@ for ite  =  1 : par.outerIter
     Y = Image2PatchNew( im_out, par);
     % estimation of noise variance
     if mod(ite-1,par.innerIter)==0
-        par.nlsp = par.nlsp - 10;
+        %         par.nlsp = par.nlsp - 10;
         % searching  non-local patches
         blk_arr = Block_Matching( Y, par);
-        if ite == 1
-            par.nSig = par.nSig0;
-        else
-            dif = mean( mean( (par.nim - im_out).^2 ) ) ;
-            par.nSig = sqrt( abs( par.nSig0^2 - dif ) )*par.lambda;
-        end
+    end
+    if ite == 1
+        par.nSig = par.nSig0;
+    else
+        dif = mean( mean( (par.nim - im_out).^2 ) ) ;
+        par.nSig = sqrt( abs( par.nSig0^2 - dif ) )*par.lambda;
     end
     % Weighted Sparse Coding
     Y_hat = zeros(par.ps2ch, par.maxrc, 'single');
