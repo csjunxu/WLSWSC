@@ -8,7 +8,7 @@ nSig = 50;
 
 % parameters
 par.ps = 8;       % patch size
-par.step = 5;    % the step of two neighbor patches
+par.step = 7;    % the step of two neighbor patches
 par.win = 20;   % size of window around the patch
 
 par.outerIter = 8;
@@ -23,7 +23,7 @@ nlsp = 40;
 par.method = 'WLSSC_DC_Gaussian';
 for lambda = 0.5:0.1:1
     par.lambda = lambda;
-    for lambdasc = [0.001 0.005]
+    for lambdasc = [0.005 0.01 0.05 0.1]
         par.lambdasc = lambdasc;
         % record all the results in each iteration
         par.PSNR = zeros(par.outerIter, im_num, 'single');
