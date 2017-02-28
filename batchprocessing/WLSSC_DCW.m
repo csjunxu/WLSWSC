@@ -31,7 +31,7 @@ for i=1:par.WWIter
     RT = sum(sum(abs(C)));
     f_curr = 0.5 * DT ^ 2 + par.lambdasc * RT;
 %     fprintf('WLSSC Energy, %d th: %2.8f\n', i, f_curr);
-    if (abs(f_prev - f_curr) / f_curr < par.epsilon) || f_prev < par.epsilon
+    if (abs(f_prev - f_curr) / f_curr < par.epsilon) || f_curr < par.epsilon
         break;
     end
 end

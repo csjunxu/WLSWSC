@@ -32,17 +32,17 @@ for lambda = 0.5:0.1:1
             par.image = i;
             par.nlsp = nlsp;
             par.nSig = nSig;
-            par.I =  im2double( imread(fullfile(Original_image_dir, im_dir(i).name)) );
+            par.I =  double( imread(fullfile(Original_image_dir, im_dir(i).name)) );
             S = regexp(im_dir(i).name, '\.', 'split');
             [h, w, ch] = size(par.I);
             for c = 1:ch
                 randn('seed',0);
-                par.nim(:, :, c) = par.I(:, :, c) + par.nSig/255 * randn(size(par.I(:, :, c)));
+                par.nim(:, :, c) = par.I(:, :, c) + par.nSig * randn(size(par.I(:, :, c)));
             end
             %
             fprintf('%s :\n',im_dir(i).name);
-            PSNR =   csnr( par.nim * 255, par.I * 255, 0, 0 );
-            SSIM      =  cal_ssim( par.nim * 255, par.I * 255, 0, 0 );
+            PSNR =   csnr( par.nim, par.I, 0, 0 );
+            SSIM      =  cal_ssim( par.nim, par.I, 0, 0 );
             fprintf('The initial value of PSNR = %2.4f, SSIM = %2.4f \n', PSNR,SSIM);
             %
             time0 = clock;
@@ -51,8 +51,8 @@ for lambda = 0.5:0.1:1
             im_out(im_out>1)=1;
             im_out(im_out<0)=0;
             % calculate the PSNR
-            par.PSNR(par.outerIter, par.image)  =   csnr( im_out * 255, par.I * 255, 0, 0 );
-            par.SSIM(par.outerIter, par.image)      =  cal_ssim( im_out * 255, par.I * 255, 0, 0 );
+            par.PSNR(par.outerIter, par.image)  =   csnr( im_out, par.I, 0, 0 );
+            par.SSIM(par.outerIter, par.image)      =  cal_ssim( im_out, par.I, 0, 0 );
             %             imname = sprintf('nSig%d_clsnum%d_delta%2.2f_lambda%2.2f_%s', nSig, cls_num, delta, lambda, im_dir(i).name);
             %             imwrite(im_out,imname);
             fprintf('%s : PSNR = %2.4f, SSIM = %2.4f \n',im_dir(i).name, par.PSNR(par.Iter, par.image),par.SSIM(par.Iter, par.image)     );

@@ -49,8 +49,8 @@ for ite  =  1 : par.outerIter
     % Reconstruction
     im_out = PGs2Image(Y_hat, W_hat, par);
     % calculate the PSNR
-    PSNR =   csnr( im_out * 255, par.I * 255, 0, 0 );
-    SSIM      =  cal_ssim( im_out * 255, par.I * 255, 0, 0 );
+    PSNR =   csnr( im_out, par.I, 0, 0 );
+    SSIM      =  cal_ssim( im_out, par.I, 0, 0 );
     fprintf('Iter %d : PSNR = %2.4f, SSIM = %2.4f\n', ite, PSNR, SSIM);
     par.PSNR(ite, par.image) = PSNR;
     par.SSIM(ite, par.image) = SSIM;
