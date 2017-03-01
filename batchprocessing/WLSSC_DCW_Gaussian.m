@@ -38,7 +38,7 @@ for ite  =  1 : par.outerIter
         nDCnlY = bsxfun(@minus, nlY, DC);
         nDCnlYCh = [nDCnlY(1:par.ps2, :) nDCnlY(par.ps2+1:2*par.ps2, :) nDCnlY(2*par.ps2+1:3*par.ps2, :)];
         % update weight for least square
-        Wls = 1 ./ Sigma(indexCh);
+        Wls = 1 ./ (Sigma(indexCh) + eps);
         % Recovered Estimated Patches by weighted least square and weighted
         % sparse coding model
         nDCnlYhatCh = WLSSC_DCW(nDCnlYCh, Sigma(indexCh), Wls, par);
