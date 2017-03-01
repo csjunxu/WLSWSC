@@ -1,5 +1,4 @@
-function  [im_out,par]    =   WLSWSC_Sigma_WAG(par)
-im_in = par.nim;
+function  [im_out,par]    =   WLSWSC_SigmaN_WAG(par)
 im_out    =   par.nim;
 par.nSig0 = par.nSig;
 % parameters for noisy image
@@ -8,11 +7,13 @@ par.h = h;
 par.w = w;
 par.ch = ch;
 par = SearchNeighborIndex( par );
+NY = Image2PatchNew( par.nim, par);
 for ite  =  1 : par.outerIter
     % iterative regularization
     im_out = im_out + par.delta * (par.nim - im_out);
     % image to patches and estimate local noise variance
-    [Y, Sigma] = Image2Patch( im_out, im_in, par);
+    Y = Image2PatchNew( im_out, par);
+    Sigma = par.lambdals * sqrt(abs(repmat(par.nSig^2, 1, size(NY, 2)) - mean((NY - Y).^2))); 
     % estimation of noise variance
     if mod(ite-1,par.innerIter)==0
         par.nlsp = par.nlsp - 10;
@@ -23,17 +24,17 @@ for ite  =  1 : par.outerIter
         end
     end
     % Weighted Sparse Coding
-    Y_hat = zeros(par.ps2, par.maxrc, 'single');
-    W_hat = zeros(par.ps2, par.maxrc, 'single');
+    Y_hat = zeros(par.ps2ch, par.maxrc, 'single');
+    W_hat = zeros(par.ps2ch, par.maxrc, 'single');
     for i = 1:par.lenrc
         index = blk_arr(:, i);
         nlY = Y( : , index );
         DC = mean(nlY, 2);
-        Wls = Sigma(index);
+        Wls = 1 ./ Sigma(index);
         nDCnlY = bsxfun(@minus, nlY, DC);
         % Recovered Estimated Patches by weighted least square and weighted
         % sparse coding model
-        nDCnlYhat = WLSWSC(nDCnlY, Wls, par);
+        nDCnlYhat = WLSWSCN(nDCnlY, Wls, par);
         % add DC components 
         nlYhat = bsxfun(@plus, nDCnlYhat, DC);
         % aggregation

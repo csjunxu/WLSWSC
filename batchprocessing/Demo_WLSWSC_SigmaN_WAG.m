@@ -1,39 +1,41 @@
 clear;
-Original_image_dir  =    'C:\Users\csjunxu\Desktop\PGPD_TIP\20images\';
+Original_image_dir  =    'C:\Users\csjunxu\Desktop\JunXu\Datasets\kodak24\kodak_color\';
 fpath = fullfile(Original_image_dir, '*.png');
 im_dir  = dir(fpath);
 im_num = length(im_dir);
 
-nSig = 40;
-par.ps = 7; % patch size
-par.step = 3; % the step of two neighbor patches
-par.win = max(3*par.ps, 20);
+nSig = 50;
+par.ps = 8; % patch size
+par.step = 7; % the step of two neighbor patches
+par.win = 20;
 
-par.outerIter = 12;
+par.outerIter = 8;
 par.innerIter = 2;
 par.WWIter = 100;
-par.epsilon = 0.005;
+par.epsilon = 0.01;
 par.model = 2;
-
+par.method = 'WLSWSC_SigmaN_Gaussian';
 for delta = 0.08
     par.delta = delta;
-    for lambdasc = 0:0.1:1
-        par.lambdasc = lambdasc;
-        for lambdals = 0:0.1:0.5
-            par.lambdals = lambdals;
+    for lambdals = 0.5:0.1:1
+        par.lambdals = lambdals;
+        for lambdasc = [1 3 5 10]
+            par.lambdasc = lambdasc;
             % record all the results in each iteration
             par.PSNR = zeros(par.outerIter, im_num, 'single');
             par.SSIM = zeros(par.outerIter, im_num, 'single');
-            T512 = [];
-            T256 = [];
             for i = 1:im_num
                 par.nlsp = 90;  % number of non-local patches
                 par.image = i;
                 par.nSig = nSig/255;
-                par.I =  single( imread(fullfile(Original_image_dir, im_dir(i).name)) )/255;
+                par.I =  im2double( imread(fullfile(Original_image_dir, im_dir(i).name)) );
                 S = regexp(im_dir(i).name, '\.', 'split');
-                randn('seed',0);
-                par.nim =   par.I + par.nSig*randn(size(par.I));
+                [h, w, ch] = size(par.I);
+                par.nim = zeros(size(par.I));
+                for c = 1:ch
+                    randn('seed',0);
+                    par.nim(:, :, c) = par.I(:, :, c) + par.nSig * randn(size(par.I(:, :, c)));
+                end
                 %
                 fprintf('%s :\n',im_dir(i).name);
                 PSNR =   csnr( par.nim*255, par.I*255, 0, 0 );
@@ -41,14 +43,8 @@ for delta = 0.08
                 fprintf('The initial value of PSNR = %2.4f, SSIM = %2.4f \n', PSNR,SSIM);
                 %
                 time0 = clock;
-                [im_out, par]  =  WLSWSC_Sigma_WAG(par);
-                if size(par.I,1) == 512
-                    T512 = [T512 etime(clock,time0)];
-                    fprintf('Total elapsed time = %f s\n', (etime(clock,time0)) );
-                elseif size(par.I,1) ==256
-                    T256 = [T256 etime(clock,time0)];
-                    fprintf('Total elapsed time = %f s\n', (etime(clock,time0)) );
-                end
+                [im_out, par]  =  WLSWSC_SigmaN_WAG(par);
+                fprintf('Total elapsed time = %f s\n', (etime(clock,time0)) );
                 im_out(im_out>1)=1;
                 im_out(im_out<0)=0;
                 % calculate the PSNR
@@ -63,14 +59,10 @@ for delta = 0.08
             PSNR =par.PSNR(idx,:);
             SSIM = par.SSIM(idx,:);
             mSSIM=mean(SSIM,2);
-            mT512 = mean(T512);
-            sT512 = std(T512);
-            mT256 = mean(T256);
-            sT256 = std(T256);
             fprintf('The best PSNR result is at %d iteration. \n',idx);
             fprintf('The average PSNR = %2.4f, SSIM = %2.4f. \n', mPSNR(idx),mSSIM);
-            name = sprintf(['WLSWSC_BP_m' num2str(par.model) '_nSig' num2str(nSig) '_delta' num2str(delta) '_lsc' num2str(lambdasc) '_lls' num2str(lambdals) '_WIter' num2str(par.WWIter) '.mat']);
-            save(name,'nSig','PSNR','SSIM','mPSNR','mSSIM','mT512','sT512','mT256','sT256');
+            name = sprintf([par.method '_' num2str(im_num) '_nSig' num2str(nSig) '_delta' num2str(delta) '_lsc' num2str(lambdasc) '_lls' num2str(lambdals) '_WIter' num2str(par.WWIter) '.mat']);
+            save(name,'nSig','PSNR','SSIM','mPSNR','mSSIM');
         end
     end
 end
