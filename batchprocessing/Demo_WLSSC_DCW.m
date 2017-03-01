@@ -23,7 +23,7 @@ nlsp = 40;
 par.method = 'WLSSC_DCW_Gaussian';
 for lambda = 0.6:0.1:1
     par.lambda = lambda;
-    for lambdasc = [0.05 0.07]
+    for lambdasc = [0.01]
         par.lambdasc = lambdasc;
         % record all the results in each iteration
         par.PSNR = zeros(par.outerIter, im_num, 'single');
