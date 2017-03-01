@@ -48,7 +48,7 @@ for lambda = 0.5:0.1:1
             time0 = clock;
             im_out = WLSSC_DC_Gaussian( par ); % WNNM denoisng function
             fprintf('Total elapsed time = %f s\n', (etime(clock,time0)) );
-            im_out(im_out>1)=1;
+            im_out(im_out>255)=255;
             im_out(im_out<0)=0;
             % calculate the PSNR
             par.PSNR(par.outerIter, par.image)  =   csnr( im_out, par.I, 0, 0 );
