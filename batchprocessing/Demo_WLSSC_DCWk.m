@@ -37,6 +37,7 @@ for lambda = 0.5:0.1:1
                 par.I =  double( imread(fullfile(Original_image_dir, im_dir(i).name)) );
                 S = regexp(im_dir(i).name, '\.', 'split');
                 [h, w, ch] = size(par.I);
+                par.nim = zeros(size(par.I));
                 for c = 1:ch
                     randn('seed',0);
                     par.nim(:, :, c) = par.I(:, :, c) + par.nSig * randn(size(par.I(:, :, c)));
