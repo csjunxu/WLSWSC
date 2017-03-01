@@ -41,8 +41,8 @@ for ite  =  1 : par.outerIter
         Wls = 1 ./ Sigma(indexCh);
         % Recovered Estimated Patches by weighted least square and weighted
         % sparse coding model
-        nDCnlYhat = WLSSC_DCW(nDCnlYCh, Sigma(indexCh), Wls, par);
-        nDCnlYhat = [nDCnlYhat(:, 1:Lindex); nDCnlYhat(:, Lindex+1:2*Lindex); nDCnlYhat(:, 2*Lindex+1:3*Lindex)];
+        nDCnlYhatCh = WLSSC_DCW(nDCnlYCh, Sigma(indexCh), Wls, par);
+        nDCnlYhat = [nDCnlYhatCh(:, 1:Lindex); nDCnlYhatCh(:, Lindex+1:2*Lindex); nDCnlYhatCh(:, 2*Lindex+1:3*Lindex)];
         % add DC components
         nlYhat = bsxfun(@plus, nDCnlYhat, DC);
         % aggregation

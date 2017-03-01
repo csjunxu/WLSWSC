@@ -20,11 +20,12 @@ par.delta = 0;
 
 nlsp = 40;
 
-par.method = 'WLSSC_DCW_Gaussian';
+par.method = 'WLSSC_DCWk_Gaussian';
 for lambda = 0.5:0.1:1
     par.lambda = lambda;
-    for lambdasc = [0.1]
+    for lambdasc = [0.05 0.1]
         par.lambdasc = lambdasc;
+        for 
         % record all the results in each iteration
         par.PSNR = zeros(par.outerIter, im_num, 'single');
         par.SSIM = zeros(par.outerIter, im_num, 'single');
@@ -46,7 +47,7 @@ for lambda = 0.5:0.1:1
             fprintf('The initial value of PSNR = %2.4f, SSIM = %2.4f \n', PSNR,SSIM);
             %
             time0 = clock;
-            im_out = WLSSC_DCW_Gaussian( par ); % WNNM denoisng function
+            im_out = WLSSC_DCWk_Gaussian( par ); % WNNM denoisng function
             fprintf('Total elapsed time = %f s\n', (etime(clock,time0)) );
             im_out(im_out>1)=1;
             im_out(im_out<0)=0;
@@ -55,7 +56,7 @@ for lambda = 0.5:0.1:1
             par.SSIM(par.outerIter, par.image)      =  cal_ssim( im_out, par.I, 0, 0 );
             %             imname = sprintf('nSig%d_clsnum%d_delta%2.2f_lambda%2.2f_%s', nSig, cls_num, delta, lambda, im_dir(i).name);
             %             imwrite(im_out,imname);
-            fprintf('%s : PSNR = %2.4f, SSIM = %2.4f \n',im_dir(i).name, par.PSNR(par.outerIter, par.image),par.SSIM(par.outerIter, par.image)     );
+            fprintf('%s : PSNR = %2.4f, SSIM = %2.4f \n',im_dir(i).name, par.PSNR(par.Iter, par.image),par.SSIM(par.Iter, par.image)     );
         end
         mPSNR=mean(par.PSNR,2);
         [~, idx] = max(mPSNR);

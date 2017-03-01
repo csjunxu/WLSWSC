@@ -1,4 +1,4 @@
-function  [im_out, par]    =   WLSSC_DC_Gaussian(par)
+function  [im_out, par]    =   WLSSC_DCWk_Gaussian(par)
 im_out    =   par.nim;
 par.nSig0 = par.nSig;
 % parameters for noisy image
@@ -8,23 +8,23 @@ par.w = w;
 par.ch = ch;
 par = SearchNeighborIndex( par );
 NY = Image2PatchNew( par.nim, par);
+NYCh = [NY(1:par.ps2, :) NY(par.ps2+1:2*par.ps2, :) NY(2*par.ps2+1:3*par.ps2, :)];
 par.TolN = size(NY, 2);
 for ite  =  1 : par.outerIter
     % iterative regularization
     im_out = im_out + par.delta * (par.nim - im_out);
     % image to patches and estimate local noise variance
     Y = Image2PatchNew( im_out, par);
+    YCh = [Y(1:par.ps2, :) Y(par.ps2+1:2*par.ps2, :) Y(2*par.ps2+1:3*par.ps2, :)];
+    Sigma = par.lambda * sqrt(abs(repmat(par.nSig^2, 1, size(YCh, 2)) - mean((NYCh - YCh).^2))); %Estimated Local Noise Level
     % estimation of noise variance
     if mod(ite-1,par.innerIter)==0
         %         par.nlsp = par.nlsp - 10;
         % searching  non-local patches
         blk_arr = Block_Matching( Y, par);
-    end
-    if ite == 1
-        par.nSig = par.nSig0;
-    else
-        dif = mean(mean( mean( (par.nim - im_out).^2 ) ) ;
-        par.nSig = sqrt( abs( par.nSig0^2 - dif ) )*par.lambda;
+        if ite == 1
+            Wls = par.nSig * ones(size(Sigma));
+        end
     end
     % Weighted Sparse Coding
     Y_hat = zeros(par.ps2ch, par.maxrc, 'single');
@@ -32,14 +32,17 @@ for ite  =  1 : par.outerIter
     for i = 1:par.lenrc
         index = blk_arr(:, i);
         Lindex = length(index);
+        indexCh = [index; index+par.TolN; index+2*par.TolN];
         nlY = Y( : , index );
         DC = mean(nlY, 2);
         nDCnlY = bsxfun(@minus, nlY, DC);
         nDCnlYCh = [nDCnlY(1:par.ps2, :) nDCnlY(par.ps2+1:2*par.ps2, :) nDCnlY(2*par.ps2+1:3*par.ps2, :)];
         % Recovered Estimated Patches by weighted least square and weighted
         % sparse coding model
-        nDCnlYhat = WLSSC_DC(nDCnlYCh, par);
-        nDCnlYhat = [nDCnlYhat(:, 1:Lindex); nDCnlYhat(:, Lindex+1:2*Lindex); nDCnlYhat(:, 2*Lindex+1:3*Lindex)];
+        nDCnlYhatCh = WLSSC_DCWk(nDCnlYCh, Sigma(indexCh), Wls, par);
+        % update weight for least square
+        Wls(index) = exp( - par.lambdals * sqrt(sum((nDCnlYCh - nDCnlYhatCh) .^2, 1)) );
+        nDCnlYhat = [nDCnlYhatCh(:, 1:Lindex); nDCnlYhatCh(:, Lindex+1:2*Lindex); nDCnlYhatCh(:, 2*Lindex+1:3*Lindex)];
         % add DC components
         nlYhat = bsxfun(@plus, nDCnlYhat, DC);
         % aggregation
