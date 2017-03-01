@@ -21,7 +21,7 @@ par.delta = 0;
 nlsp = 40;
 
 par.method = 'WLSSC_DCW_Gaussian';
-for lambda = 0.6:0.1:1
+for lambda = 0.5:0.1:1
     par.lambda = lambda;
     for lambdasc = [0.01]
         par.lambdasc = lambdasc;
