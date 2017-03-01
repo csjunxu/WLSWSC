@@ -5,9 +5,9 @@ YW = bsxfun(@times, Y, Wls);
 [U, S, V] = svd(YW * YW', 'econ');
 D = V * U';
 % update S
-S = sqrt(max( diag(S) - size(Y, 2) / mean(Wls)^2, 0 )); 
+S = max( diag(S) - size(Y, 2) / mean(Wls)^2, 0 ); 
 % update W for weighted sparse coding
-Wsc = bsxfun(@rdivide, par.lambdasc * sqrt(size(Y, 2)) ./ Wls .^ 2, S + eps ); 
+Wsc = bsxfun(@rdivide, par.lambdasc * sqrt(size(Y, 2)) ./ Wls .^ 2, sqrt(S) + eps ); 
 
 f_curr = 0;
 for i=1:par.WWIter

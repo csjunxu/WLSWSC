@@ -23,7 +23,7 @@ nlsp = 40;
 par.method = 'WLSSC_DC_Gaussian';
 for lambda = 0.5:0.1:1
     par.lambda = lambda;
-    for lambdasc = [0.1 0.5 1]
+    for lambdasc = [1]
         par.lambdasc = lambdasc;
         % record all the results in each iteration
         par.PSNR = zeros(par.outerIter, im_num, 'single');
@@ -35,6 +35,7 @@ for lambda = 0.5:0.1:1
             par.I =  double( imread(fullfile(Original_image_dir, im_dir(i).name)) );
             S = regexp(im_dir(i).name, '\.', 'split');
             [h, w, ch] = size(par.I);
+            par.nim = zeros(size(par.I));
             for c = 1:ch
                 randn('seed',0);
                 par.nim(:, :, c) = par.I(:, :, c) + par.nSig * randn(size(par.I(:, :, c)));
