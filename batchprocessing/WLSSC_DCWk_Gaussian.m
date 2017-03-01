@@ -23,7 +23,7 @@ for ite  =  1 : par.outerIter
         % searching  non-local patches
         blk_arr = Block_Matching( Y, par);
         if ite == 1
-            Wls = par.nSig * ones(size(Sigma));
+            Wls = exp( - par.lambdals * sum(Sigma .^2, 1) );
         end
     end
     % Weighted Sparse Coding
@@ -41,7 +41,7 @@ for ite  =  1 : par.outerIter
         % sparse coding model
         nDCnlYhatCh = WLSSC_DCWk(nDCnlYCh, Sigma(indexCh), Wls(indexCh), par);
         % update weight for least square
-        Wls(indexCh) = exp( - par.lambdals * sqrt(sum((nDCnlYCh - nDCnlYhatCh) .^2, 1)) );
+        Wls(indexCh) = exp( - par.lambdals * sum((nDCnlYCh - nDCnlYhatCh) .^2, 1) );
         nDCnlYhat = [nDCnlYhatCh(:, 1:Lindex); nDCnlYhatCh(:, Lindex+1:2*Lindex); nDCnlYhatCh(:, 2*Lindex+1:3*Lindex)];
         % add DC components
         nlYhat = bsxfun(@plus, nDCnlYhat, DC);

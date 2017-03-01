@@ -18,12 +18,12 @@ par.model = 2;
 par.WWIter = 100;
 par.delta = 0;
 
-nlsp = 40;
+nlsp = 90;
 
 par.method = 'WLSSC_DCWk_Gaussian';
 for lambda = 0.5:0.1:1
     par.lambda = lambda;
-    for lambdasc = [0.1]
+    for lambdasc = [0.001]
         par.lambdasc = lambdasc;
         for lambdals = [0.5 1]
             par.lambdals = lambdals;

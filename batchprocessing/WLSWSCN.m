@@ -8,7 +8,7 @@ D = V * U';
 % update S
 S = sqrt(max( diag(S) - size(Y, 2) *  (1)^2, 0 )); 
 % update left weighting matrix W for weighted sparse coding
-Wsc = bsxfun(@rdivide, par.lambdasc * invWls .^ 2, S + eps ); 
+Wsc = bsxfun(@rdivide, par.lambdasc * sqrt(size(Y, 2)) * invWls .^ 2, S + eps ); 
 % Wsc = bsxfun(@rdivide, par.lambdasc * sqrt(size(Y, 2)) * invWls .^ 2, sqrt(S) + eps ); 
 % Wsc = par.lambdasc ./ (bsxfun(@times,  Wls .^ 2, sqrt(S)) + eps);
 f_curr = 0;
