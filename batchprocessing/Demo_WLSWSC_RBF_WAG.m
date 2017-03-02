@@ -19,7 +19,7 @@ par.model = 1;
 
 for delta = 0.08
     par.delta = delta;
-    for lambdasc = [0.01 0.1 1]
+    for lambdasc = [0.1 1]
         par.lambdasc = lambdasc;
         for lambdals = [0.1 0.5 1]
             par.lambdals = lambdals;

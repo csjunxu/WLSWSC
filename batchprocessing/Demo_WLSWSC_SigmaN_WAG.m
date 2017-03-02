@@ -19,7 +19,7 @@ for delta = 0.08
     par.delta = delta;
     for lambdals = 0.5:0.1:1
         par.lambdals = lambdals;
-        for lambdasc = [20:10:50]
+        for lambdasc = [25:5:50]
             par.lambdasc = lambdasc;
             % record all the results in each iteration
             par.PSNR = zeros(par.outerIter, im_num, 'single');
