@@ -19,9 +19,9 @@ par.model = 1;
 
 for delta = 0.08
     par.delta = delta;
-    for lambdasc = 0:0.1:1
+    for lambdasc = [0.01 0.1 1]
         par.lambdasc = lambdasc;
-        for lambdals = 0:0.1:0.5
+        for lambdals = [0.1 0.5 1]
             par.lambdals = lambdals;
             % record all the results in each iteration
             par.PSNR = zeros(par.outerIter, im_num, 'single');
@@ -29,6 +29,7 @@ for delta = 0.08
             T512 = [];
             T256 = [];
             for i = 1:im_num
+                par.image = i;
                 par.nlsp = 90;  % number of non-local patches
                 par.nSig = nSig;
                 par.I =  double( imread(fullfile(Original_image_dir, im_dir(i).name)) );
@@ -46,7 +47,7 @@ for delta = 0.08
                 %
                 time0 = clock;
                 [im_out, par]  =  WLSWSC_RBF_WAG(par);
-                    fprintf('Total elapsed time = %f s\n', (etime(clock,time0)) );
+                fprintf('Total elapsed time = %f s\n', (etime(clock,time0)) );
                 im_out(im_out>255)=255;
                 im_out(im_out<0)=0;
                 % calculate the PSNR

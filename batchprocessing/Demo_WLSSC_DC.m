@@ -23,7 +23,7 @@ nlsp = 40;
 par.method = 'WLSSC_DC_Gaussian';
 for lambda = 0.5:0.1:1
     par.lambda = lambda;
-    for lambdasc = [15:5:50]
+    for lambdasc = [20:10:50]
         par.lambdasc = lambdasc;
         % record all the results in each iteration
         par.PSNR = zeros(par.outerIter, im_num, 'single');
@@ -63,10 +63,6 @@ for lambda = 0.5:0.1:1
         PSNR =par.PSNR(idx,:);
         SSIM = par.SSIM(idx,:);
         mSSIM=mean(SSIM,2);
-        mT512 = mean(T512);
-        sT512 = std(T512);
-        mT256 = mean(T256);
-        sT256 = std(T256);
         fprintf('The best PSNR result is at %d iteration. \n',idx);
         fprintf('The average PSNR = %2.4f, SSIM = %2.4f. \n', mPSNR(idx),mSSIM);
         name = sprintf([par.method '_' num2str(im_num) '_nSig' num2str(nSig) '_lambda' num2str(lambda) '_lambdasc' num2str(lambdasc) '.mat']);
