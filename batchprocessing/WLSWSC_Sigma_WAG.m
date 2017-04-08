@@ -1,4 +1,4 @@
-function  [im_out,par]    =   WLSWSC_Sigma_1AG(par)
+function  [im_out,par]    =   WLSWSC_Sigma_WAG(par)
 im_in = par.nim;
 im_out    =   par.nim;
 par.nSig0 = par.nSig;
@@ -8,11 +8,15 @@ par.h = h;
 par.w = w;
 par.ch = ch;
 par = SearchNeighborIndex( par );
+NY = Image2PatchNew( im_in, par );
 for ite  =  1 : par.outerIter
     % iterative regularization
     im_out = im_out + par.delta * (par.nim - im_out);
-    % image to patches and estimate local noise variance
-    [Y, Sigma] = Image2Patch( im_out, im_in, par);
+    % image to patches
+    Y = Image2PatchNew( im_out, par );
+    % estimate local noise variance, par.lambdals is put here since the MAP
+    % and Bayesian rules
+    Sigma = par.lambdals * sqrt(abs(repmat(par.nSig0^2, 1, size(Y,2)) - mean((NY - Y).^2))); %Estimated Local Noise Level
     % estimation of noise variance
     if mod(ite-1,par.innerIter)==0
         par.nlsp = par.nlsp - 10;
@@ -34,11 +38,11 @@ for ite  =  1 : par.outerIter
         % Recovered Estimated Patches by weighted least square and weighted
         % sparse coding model
         nDCnlYhat = WLSWSC(nDCnlY, Wls, par);
-        % add DC components 
+        % add DC components
         nlYhat = bsxfun(@plus, nDCnlYhat, DC);
         % aggregation
-        Y_hat(:, index) = Y_hat(:, index) + nlYhat;
-        W_hat(:, index) = W_hat(:, index) + ones(par.ps2ch, par.nlsp);
+        Y_hat(:, index) = Y_hat(:, index) + bsxfun(@times, nlYhat, Wls);
+        W_hat(:, index) = W_hat(:, index) + repmat(Wls, [par.ps2ch, 1]);
     end
     % Reconstruction
     im_out = PGs2Image(Y_hat, W_hat, par);

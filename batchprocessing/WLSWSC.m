@@ -6,7 +6,7 @@ YW = bsxfun(@times, Y, Wls);
 D = V * U';
 S = diag(S);
 % fixed W for weighted sparse coding
-Wsc = bsxfun(@rdivide, par.lambdasc * Wls .^ 2, sqrt(S) + eps ); % sqrt(S) ?
+Wsc = bsxfun(@rdivide, par.lambdasc * Wls .^ 2, sqrt(S) + eps );
  
 f_curr = 0;
 for i=1:par.WWIter
@@ -30,11 +30,10 @@ for i=1:par.WWIter
     % energy function
     DT = bsxfun(@times, Y - D * C, Wls);
     DT = norm(DT, 'fro');
-    %     DT = DT(:)'*DT(:);
     RT = Wsc .*  C;
     RT = sum(sum(abs(RT)));
     f_curr = 0.5 * DT ^ 2 + par.lambdasc * RT;
-%     fprintf('WLSWSC Energy, %d th: %2.8f\n', i, f_curr);
+    fprintf('WLSWSC Energy, %d th: %2.8f\n', i, f_curr);
     if (abs(f_prev - f_curr) / f_curr < par.epsilon)
         break;
     end
