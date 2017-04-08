@@ -10,8 +10,8 @@ im_dir  = dir(fpath);
 im_num = length(im_dir);
 
 nSig = 40;
-par.ps = 8; % patch size
-par.step = 3; % the step of two neighbor patches
+par.ps = 7; % patch size
+par.step = 6; % the step of two neighbor patches
 par.win = 30;
 
 par.outerIter = 12;

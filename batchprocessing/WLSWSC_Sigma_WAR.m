@@ -8,11 +8,16 @@ par.h = h;
 par.w = w;
 par.ch = ch;
 par = SearchNeighborIndex( par );
+% original noisy image to patches
+NY = Image2PatchNew( par.nim, par );
 for ite  =  1 : par.outerIter
     %     % iterative regularization
     %     im_out = im_out+par.delta*(par.nim - im_out);
-    % image to patches and estimate local noise variance
-    [Y, Sigma] = Image2Patch( im_out, im_in, par );
+    % image to patches
+    Y = Image2PatchNew( im_out, par );
+    % estimate local noise variance, par.lambdals is put here since the MAP
+    % and Bayesian rules
+    Sigma = par.lambdals * sqrt(abs(repmat(par.nSig0^2, 1, size(Y,2)) - mean((NY - Y).^2))); %Estimated Local Noise Level
     % estimation of noise variance
     if mod(ite-1, par.innerIter)==0
         par.nlsp = par.nlsp - 10;
@@ -33,7 +38,7 @@ for ite  =  1 : par.outerIter
         % update Wei for least square
         Wls = 1 ./ Sigma(index);
         nDCnlYhat = WLSWSCNew(nDCnlY, Wls, par);
-        % add DC components 
+        % add DC components
         nlYhat = bsxfun(@plus, nDCnlYhat, DC);
         % aggregation
         Y_hat(:, index) = Y_hat(:, index) + bsxfun(@times, nlYhat, Wls);
