@@ -22,9 +22,9 @@ par.model = 2;
 
 for delta = [0.08 0.1]
     par.delta = delta;
-    for lambdasc = 0.5:0.1:1
+    for lambdasc = 1:-0.1:0.8
         par.lambdasc = lambdasc;
-        for lambdals = [0.85 0.8]
+        for lambdals = [0.6 0.7 0.8 0.9 ]
             par.lambdals = lambdals;
             % record all the results in each iteration
             par.PSNR = zeros(par.outerIter, im_num, 'single');

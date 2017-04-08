@@ -33,7 +33,7 @@ for ite  =  1 : par.outerIter
         index = blk_arr(:, i);
         nlY = Y( : , index );
         DC = mean(nlY, 2);
-        Wls = Sigma(index);
+        Wls = 1 ./ Sigma(index);
         nDCnlY = bsxfun(@minus, nlY, DC);
         % Recovered Estimated Patches by weighted least square and weighted
         % sparse coding model

@@ -6,8 +6,13 @@ YW = bsxfun(@times, Y, Wls);
 D = V * U';
 S = diag(S);
 % fixed W for weighted sparse coding
-Wsc = bsxfun(@rdivide, par.lambdasc * Wls .^ 2, sqrt(S) + eps );
+Wsc = bsxfun(@rdivide, par.lambdasc ./ Wls .^ 2, sqrt(S) + eps );
  
+% % update S
+% S = max( diag(S) - size(Y, 2), 0 ); 
+% % update left weighting matrix W for weighted sparse coding
+% Wsc = bsxfun(@rdivide, par.lambdasc * sqrt(size(Y, 2)) * Wls .^ 2, sqrt(S) + eps ); 
+
 f_curr = 0;
 for i=1:par.WWIter
     f_prev = f_curr;

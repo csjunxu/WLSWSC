@@ -12,9 +12,9 @@ TT_im_dir  = dir(TT_fpath);
 im_num = length(TT_im_dir);
 
 % parameters
-par.step = 3;       % the step of two neighbor patches
 par.ps = 6;        % patch size
-par.win = 30;   % size of window around the patch
+par.step = 5;       % the step of two neighbor patches
+par.win = 20;   % size of window around the patch
 
 par.outerIter = 4;
 par.innerIter = 2;
