@@ -24,7 +24,7 @@ par.model = 2;
  
 for lambdasc = [1]
     par.lambdasc = lambdasc;
-    for lambdals = 1:-0.2:0.2
+    for lambdals = [0.1 0.05 0.01]
         par.lambdals = lambdals;
         PSNR = [];
         SSIM = [];

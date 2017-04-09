@@ -1,8 +1,7 @@
 clear;
-% Original_image_dir  =    'C:\Users\csjunxu\Desktop\Projects\WODL\20images\';
-Original_image_dir  =    'C:\Users\csjunxu\Desktop\Projects\WODL\20newimages\';
+Original_image_dir  =    'C:\Users\csjunxu\Desktop\Projects\WODL\20images\';
+% Original_image_dir  =    'C:\Users\csjunxu\Desktop\Projects\WODL\20newimages\';
 Sdir = regexp(Original_image_dir, '\', 'split');
-
 
 
 fpath = fullfile(Original_image_dir, '*.png');
@@ -20,11 +19,11 @@ par.WWIter = 100;
 par.epsilon = 0.001;
 par.model = 2;
 
-for delta = [0.08 0.1]
+for delta = [0.1]
     par.delta = delta;
-    for lambdasc = 1:-0.1:0.8
+    for lambdasc = 1
         par.lambdasc = lambdasc;
-        for lambdals = [0.6 0.7 0.8 0.9 ]
+        for lambdals = [0.1 0.05 0.01]
             par.lambdals = lambdals;
             % record all the results in each iteration
             par.PSNR = zeros(par.outerIter, im_num, 'single');
