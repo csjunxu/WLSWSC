@@ -21,10 +21,10 @@ par.innerIter = 2;
 par.WWIter = 100;
 par.epsilon = 0.001;
 par.model = 2;
-
-for lambdasc = [0.01 0.05 0.1]
+ 
+for lambdasc = [1]
     par.lambdasc = lambdasc;
-    for lambdals = 1:-0.1:0.7
+    for lambdals = 1:-0.2:0.2
         par.lambdals = lambdals;
         PSNR = [];
         SSIM = [];
