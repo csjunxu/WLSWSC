@@ -21,7 +21,7 @@ par.innerIter = 2;
 par.WWIter = 100;
 par.epsilon = 0.001;
 par.model = 2;
- 
+
 for lambdasc = [1]
     par.lambdasc = lambdasc;
     for lambdals = [0.1 0.05 0.01]
