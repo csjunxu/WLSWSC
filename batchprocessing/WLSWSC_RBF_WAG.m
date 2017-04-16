@@ -32,7 +32,7 @@ for ite  =  1 : par.outerIter
         nDCnlY = bsxfun(@minus, nlY, DC);
         % Recovered Estimated Patches by weighted least square and weighted
         % sparse coding model
-clear,cl        nDCnlYhat = WLSWSC(nDCnlY, Wls(index), par);
+        nDCnlYhat = WLSWSC(nDCnlY, Wls(index), par);
         % update weight for least square
         Wls(index) = exp( - par.lambdals * sqrt(sum((nDCnlY - nDCnlYhat) .^2, 1)) );
         % add DC components
